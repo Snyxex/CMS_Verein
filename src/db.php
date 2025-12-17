@@ -4,9 +4,21 @@ $user='root';
 $pass='password';
 $db='cms';
 
+function start(){
+    try {
+        connection();
+        
+    }catch (Exception $e){
+        die("Error:" . e->getMessage());
+    }
+    
+}
+
+
 function connect(){
 
 $connection = mysqli_connect($host, $user, $pass, $db);
+
 return $connection;
 }
 
