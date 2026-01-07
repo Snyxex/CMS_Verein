@@ -5,8 +5,8 @@ class AppNavbar extends HTMLElement {
         <a href="index.html" class="logo">MyApp</a>
         <ul class="nav-links">
           <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="Kalender.html">Kalender</a></li>
+          <li><a href="guestbook.html">Gästebuch</a></li>
         </ul>
       </nav>
       `;
