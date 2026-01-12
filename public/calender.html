@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender</title>
+</head>
+<body>
+
+    <app-navbar></app-navbar>
+
+    <main>
+           <app-calendar id="main-calendar"></app-calendar>
+    </main>
+
+    <script src="../src/components/navbar.js"></script>
+    <script src="../src/components/calendar.js"></script>
+
+    <script>
+       
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendar = document.getElementById('main-calendar');
+
+          //beispiel für später ersetzten mit php
+            const meineTermine = [
+                { date: '2026-01-15', title: 'Zahnarzt' },
+                { date: '2026-01-20', title: 'Projekt-Präsentation' },
+                { date: '2026-01-25', title: 'Geburtstag' }
+            ];
+
+            // Daten an die Komponente übergeben
+            calendar.setAppointments(meineTermine);
+        });
+    </script>
+</body>
+</html>
