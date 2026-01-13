@@ -1,12 +1,13 @@
 <?php
 $host='127.0.0.1';
 $user='root';
-$pass='password';
+$pass='';       //password
 $db='cms';
 
-function start(){
+
+function start(){                       //Besprechen wie es eingesetzt werden soll/kann
     try {
-        connection();
+       $connection = connect($host, $user, $pass, $db);
         
     }catch (Exception $e){
         die("Error:" . e->getMessage());
@@ -15,10 +16,9 @@ function start(){
 }
 
 
-function connect(){
+function connect($host, $user, $pass, $db){         //Variablen sind nur durch ÜBergabe bekannt??
 
 $connection = mysqli_connect($host, $user, $pass, $db);
-
 return $connection;
 }
 
@@ -30,6 +30,5 @@ function query($connection, $sql){
     $result = mysqli_query($connection, $sql);
     return $result;
 }
-
 
 ?>
