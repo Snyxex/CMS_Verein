@@ -5,7 +5,6 @@ $pass='';       //password
 $db='cms';
 
 
-function start(){                       //Besprechen wie es eingesetzt werden soll/kann
     try {
        $connection = connect($host, $user, $pass, $db);
         
@@ -13,14 +12,9 @@ function start(){                       //Besprechen wie es eingesetzt werden so
         die("Error:" . e->getMessage());
     }
     
-}
 
 
-function connect($host, $user, $pass, $db){         //Variablen sind nur durch ÜBergabe bekannt??
 
-$connection = mysqli_connect($host, $user, $pass, $db);
-return $connection;
-}
 
 function close($connection){
     mysqli_close($connection);
