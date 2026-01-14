@@ -28,7 +28,7 @@ class AppCalendar extends HTMLElement {
     const startingDay = firstDay === 0 ? 6 : firstDay - 1;
 
     this.innerHTML = `
-     <link rel="stylesheet" href="../../public/styles/calendar.css">
+     <link rel="stylesheet" href="/CMS_Verein/public/styles/calender.css">
       <div class="calendar-container">
         <div class="calendar-header">
           <button id="prevMonth">&lt;</button>
