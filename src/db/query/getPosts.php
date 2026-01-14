@@ -2,7 +2,7 @@
 include "../../src/db.php";
 
 
-start();
+
 
 $postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
               From posts as p, clubs as c
@@ -11,7 +11,8 @@ $postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
 $posts = query($connection, $postsQuery);
 
 
-/*if($dbconnection && $posts != false)
+
+/*if($connection && $posts != false)
 {
 
     echo "<table>";

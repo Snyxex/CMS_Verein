@@ -2,7 +2,6 @@
 include "../../src/db.php";
 
 
-start();
 
 
 $eventsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at

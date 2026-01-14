@@ -4,17 +4,13 @@ $user='root';
 $pass='';       //password
 $db='cms';
 
-
     try {
-       $connection = connect($host, $user, $pass, $db);
+       $connection = mysqli_connect($host, $user, $pass, $db);
         
     }catch (Exception $e){
-        die("Error:" . e->getMessage());
+        die("Error:" . $e->getMessage());
     }
     
-
-
-
 
 function close($connection){
     mysqli_close($connection);
