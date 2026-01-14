@@ -13,9 +13,6 @@ $db='cms';
     }
     
 
-
-
-
 function close($connection){
     mysqli_close($connection);
 }
