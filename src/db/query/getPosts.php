@@ -3,34 +3,33 @@ include "../../src/db.php";
 
 
 
-
-$postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
-              From posts as p, clubs as c
-              Where p.club_id = c.club_id";
-
-$posts = query($connection, $postsQuery);
-
-
-
-/*if($connection && $posts != false)
+function allPosts()
 {
+    $postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
+                From posts as p, clubs as c
+                Where p.club_id = c.club_id";
+    exePostQuery()
+}
 
-    echo "<table>";
 
-    while($row = $posts->fetch_assoc())
-    {
-        echo "<td>"
-            .$row["title"].
-            "</td>";
-        echo "<td>"
-            .$row["content"].
-            "</td>";
-        echo "<td>"
-            .$row["image"].
-            "</td>";
-    }
+function getPostsbyDate($date)
+{
+    /*$postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
+                From posts as p, clubs as c
+                Where p.created_at = $date  
+                AND p.club_id = c.club_id";
+                */
+    $postsQuery = $postsQuery + "AND p.created_at = $date";
+    exePostQuery()
+}
 
-    echo "</table";
-}*/
+
+function exePostQuery()
+{
+    $posts = query($connection, $postsQuery);
+    return $posts;
+}
+
+
 
 ?>
