@@ -2,7 +2,7 @@ class AppCalendar extends HTMLElement {
   constructor() {
     super();
     this.currentDate = new Date();
-    this.appointments = [Format: { date: '2024-05-22', hour: 1, title: 'Mathe', room: 'R101' }]; // Format: { date: '2024-05-22', hour: 1, title: 'Mathe', room: 'R101' }
+    this.appointments = []; // Format: { date: '2024-05-22', hour: 1, title: 'Mathe', room: 'R101' }
   }
 
   connectedCallback() {
