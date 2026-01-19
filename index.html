@@ -1,12 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MyApp</title>
+    <link rel="stylesheet" href="./public/styles/index.css">
+
+    <style>
+        .news-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .news-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+
+        .news-item h2 {
+            margin-top: 0;
+        }
+
+        .news-date {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
+
     <app-navbar></app-navbar>
-      <script src="./src/components/navbar.js"></script>
+    <script src="./src/components/navbar.js"></script>
+
+    <main class="news-container">
+        <div class="news-item">
+            <h2>Neuer Vorstand gewählt</h2>
+            <div class="news-date">15. Januar 2026</div>
+            <p>Bei der letzten Mitgliederversammlung wurde ein neuer Vorstand gewählt. Wir bedanken uns beim alten Vorstand für die geleistete Arbeit.</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Vereinsfest am Wochenende</h2>
+            <div class="news-date">10. Januar 2026</div>
+            <p>Am kommenden Samstag findet unser jährliches Vereinsfest statt. Alle Mitglieder, Freunde und Familien sind herzlich eingeladen.</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Neue Trainingszeiten</h2>
+            <div class="news-date">05. Januar 2026</div>
+            <p>Ab sofort gelten neue Trainingszeiten. Bitte schaut im internen Bereich oder sprecht eure Trainer an.</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Erfolgreicher Saisonstart</h2>
+            <div class="news-date">20. Dezember 2025</div>
+            <p>Unsere Mannschaft ist erfolgreich in die neue Saison gestartet. Wir freuen uns über die tolle Unterstützung der Fans.</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Mitgliederversammlung 2026</h2>
+            <div class="news-date">01. Dezember 2025</div>
+            <p>Die nächste Mitgliederversammlung findet im Februar 2026 statt. Die offizielle Einladung folgt per E-Mail.</p>
+        </div>
+    </main>
+
 </body>
+<footer class="footer">
+    <div class="footer-top">
+        <div class="footer-column">
+            <h3>Top Kategorien</h3>
+            <ul>
+                <li><a href="./public/footer/hometrikot.html">Home Trikot</a></li>
+                <li><a href="#">Away Trikot</a></li>
+                <li><a href="#">Torwart Trikot</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Hilfe & Services</h3>
+            <ul>
+                <li><a href="#">Versandinformationen</a></li>
+                <li><a href="#">Rücksendungen</a></li>
+                <li><a href="#">Lieferländer</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Weitere Kategorien</h3>
+            <ul>
+                <li><a href="#">Mein Konto</a></li>
+                <li><a href="#">Jobs</a></li>
+                <li><a href="#">Häufige Fragen & Antworten</a></li>
+                <li><a href="#">Stores</a></li>
+        
+               
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Folge uns</h3>
+            <div class="social-icons">
+                <a href="#">YouTube</a>
+                <a href="#">Instagram</a>
+               
+            </div>
+
+            <h3>Zahlung & Lieferung</h3>
+            <p>Visa · Mastercard · PayPal · Klarna · DHL</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Dein Verein e.V.</p>
+        <div class="footer-links">
+            <a href="#">Impressum</a>
+            <a href="#">AGB</a>
+            <a href="#">Datenschutz</a>
+            <a href="#">Cookie Details</a>
+        </div>
+    </div>
+</footer>
+
 </html>
