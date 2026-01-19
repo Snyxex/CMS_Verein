@@ -38,7 +38,7 @@ class AppCalendar extends HTMLElement {
       weekDays.push(day);
     }
 
-    const timeSlots = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00"];
+    const timeSlots = [];
 
     this.innerHTML = `
     <link rel="stylesheet" href="/CMS_Verein/public/styles/calender.css">
