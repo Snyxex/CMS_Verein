@@ -8,7 +8,7 @@ function allPosts()
     $postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
                 From posts as p, clubs as c
                 Where p.club_id = c.club_id";
-    exePostQuery()
+    exePostQuery();
 }
 
 
@@ -20,7 +20,7 @@ function getPostsbyDate($date)
                 AND p.club_id = c.club_id";
                 */
     $postsQuery = $postsQuery + "AND p.created_at = $date";
-    exePostQuery()
+    exePostQuery();
 }
 
 

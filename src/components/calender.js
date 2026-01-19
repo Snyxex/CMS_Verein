@@ -2,45 +2,81 @@ class AppCalendar extends HTMLElement {
   constructor() {
     super();
     this.currentDate = new Date();
-    this.appointments = []; // Hier landen die Datenbank-Daten
+    this.appointments = [Format: { date: '2024-05-22', hour: 1, title: 'Mathe', room: 'R101' }]; // Format: { date: '2024-05-22', hour: 1, title: 'Mathe', room: 'R101' }
   }
 
   connectedCallback() {
     this.render();
   }
 
-  // Methode, um Daten von außen (Datenbank) zu setzen
   setAppointments(data) {
     this.appointments = data;
-    this.render(); // Neu zeichnen, wenn Daten kommen
+    this.render();
+  }
+
+  // Hilfsfunktion: Montag der aktuellen Woche finden
+  getMonday(d) {
+    const date = new Date(d);
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
+  }
+
+  // Hilfsfunktion: Datum in YYYY-MM-DD Format
+  formatDate(date) {
+    return date.toISOString().split('T')[0];
   }
 
   render() {
-    const year = this.currentDate.getFullYear();
-    const month = this.currentDate.getMonth();
-    const monthName = new Intl.DateTimeFormat('de-DE', { month: 'long' }).format(this.currentDate);
-
-    // Kalender-Logik: Erster Tag und Anzahl Tage im Monat
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const monday = this.getMonday(this.currentDate);
+    const weekDays = [];
     
-    // Korrektur für deutschen Wochenstart (Montag statt Sonntag)
-    const startingDay = firstDay === 0 ? 6 : firstDay - 1;
+    // Erstelle Array mit Daten für Mo-Fr
+    for (let i = 0; i < 5; i++) {
+      const day = new Date(monday);
+      day.setDate(monday.getDate() + i);
+      weekDays.push(day);
+    }
+
+    const timeSlots = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00"];
 
     this.innerHTML = `
-     <link rel="stylesheet" href="/CMS_Verein/public/styles/calender.css">
+    <link rel="stylesheet" href="/CMS_Verein/public/styles/calender.css">
       <div class="calendar-container">
         <div class="calendar-header">
-          <button id="prevMonth">&lt;</button>
-          <h2>${monthName} ${year}</h2>
-          <button id="nextMonth">&gt;</button>
+          <button id="prevWeek"> Zurück </button>
+          <h2>Woche vom ${monday.toLocaleDateString('de-DE')}</h2>
+          <button id="nextWeek"> Vorwärts </button>
         </div>
+        
         <div class="calendar-grid">
-          <div class="weekday">Mo</div><div class="weekday">Di</div>
-          <div class="weekday">Mi</div><div class="weekday">Do</div>
-          <div class="weekday">Fr</div><div class="weekday">Sa</div>
-          <div class="weekday">So</div>
-          ${this.generateDays(startingDay, daysInMonth, year, month)}
+          <div class="grid-label">Zeit</div>
+          ${weekDays.map(d => `
+            <div class="grid-label">
+              ${d.toLocaleDateString('de-DE', { weekday: 'short' })}<br>
+              <small>${d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}</small>
+            </div>
+          `).join('')}
+
+          ${timeSlots.map((time, hourIndex) => `
+            <div class="time-cell">${time}</div>
+            ${weekDays.map(day => {
+              const dateStr = this.formatDate(day);
+              const isToday = this.formatDate(new Date()) === dateStr ? 'is-today' : '';
+              const app = this.appointments.find(a => a.date === dateStr && parseInt(a.hour) === hourIndex);
+              
+              return `
+                <div class="day-cell ${isToday}">
+                  ${app ? `
+                    <div class="appointment">
+                      <div class="subject">${app.title}</div>
+                      <div class="room">${app.room || '-'}</div>
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join('')}
+          `).join('')}
         </div>
       </div>
     `;
@@ -48,49 +84,23 @@ class AppCalendar extends HTMLElement {
     this.initEventListeners();
   }
 
-  generateDays(start, total, year, month) {
-    let html = '';
-    // Leere Felder am Anfang
-    for (let i = 0; i < start; i++) {
-      html += `<div class="day empty"></div>`;
-    }
-    // Die eigentlichen Tage
-    for (let day = 1; day <= total; day++) {
-      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      
-      // Prüfen, ob für diesen Tag Termine in den Datenbank-Daten existieren
-      const hasAppointment = this.appointments.some(app => app.date === dateStr);
-      const activeClass = hasAppointment ? 'has-event' : '';
-      const todayClass = new Date().toISOString().split('T')[0] === dateStr ? 'today' : '';
-
-      html += `
-        <div class="day ${activeClass} ${todayClass}" data-date="${dateStr}">
-          <span class="day-number">${day}</span>
-          ${hasAppointment ? '<div class="event-dot"></div>' : ''}
-        </div>
-      `;
-    }
-    return html;
-  }
-
   initEventListeners() {
-    this.querySelector('#prevMonth').onclick = () => {
-      this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-      this.render();
-    };
-    this.querySelector('#nextMonth').onclick = () => {
-      this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-      this.render();
-    };
-    
-    // Klick auf einen Tag
-    this.querySelectorAll('.day:not(.empty)').forEach(dayEl => {
-      dayEl.onclick = () => {
-        const date = dayEl.dataset.date;
-        const event = this.appointments.find(a => a.date === date);
-        if(event) alert(`Termin am ${date}: ${event.title}`);
+    const prevBtn = this.querySelector('#prevWeek');
+    const nextBtn = this.querySelector('#nextWeek');
+
+    if(prevBtn) {
+      prevBtn.onclick = () => {
+        this.currentDate.setDate(this.currentDate.getDate() - 7);
+        this.render();
       };
-    });
+    }
+
+    if(nextBtn) {
+      nextBtn.onclick = () => {
+        this.currentDate.setDate(this.currentDate.getDate() + 7);
+        this.render();
+      };
+    }
   }
 }
 
