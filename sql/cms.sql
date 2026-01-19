@@ -6,7 +6,7 @@ USE cms;
 -- =========================
 -- CLUBS (Vereine)
 -- =========================
-IF NOT EXISTS CREATE TABLE clubs (
+CREATE TABLE clubs (
     club_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
     description TEXT,
@@ -18,7 +18,7 @@ IF NOT EXISTS CREATE TABLE clubs (
 -- =========================
 -- USERS (Admins)
 -- =========================
-IF NOT EXISTS CREATE TABLE users (
+CREATE TABLE users (
     user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     club_id INT UNSIGNED NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -32,7 +32,7 @@ IF NOT EXISTS CREATE TABLE users (
 -- =========================
 -- POSTS (News / CMS)
 -- =========================
-IF NOT EXISTS CREATE TABLE posts (
+CREATE TABLE posts (
     post_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     club_id INT UNSIGNED NOT NULL,
     title VARCHAR(150) NOT NULL,
@@ -45,7 +45,7 @@ IF NOT EXISTS CREATE TABLE posts (
 -- =========================
 -- EVENTS (Termine)
 -- =========================
-IF NOT EXISTS CREATE TABLE events (
+CREATE TABLE events (
     event_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     club_id INT UNSIGNED NOT NULL,
     title VARCHAR(150) NOT NULL,
@@ -61,7 +61,7 @@ IF NOT EXISTS CREATE TABLE events (
 -- =========================
 -- GUESTBOOK (Gästebuch)
 -- =========================
-IF NOT EXISTS CREATE TABLE guestbook (
+CREATE TABLE guestbook (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     club_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
@@ -75,7 +75,7 @@ IF NOT EXISTS CREATE TABLE guestbook (
 -- =========================
 -- MEMBERS (Vereinsmitglieder)
 -- =========================
-IF NOT EXISTS CREATE TABLE members (
+CREATE TABLE members (
     member_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     club_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
