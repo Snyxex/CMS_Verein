@@ -1,7 +1,7 @@
 <?php
-include "../../src/db.php";
+include "../../db.php";
 
-function getexistinUsers()
+function getExistinUsers()
 {
     $uEmail = $_POST['email'];
     $uPassword = $_POST['password'];
@@ -9,13 +9,7 @@ function getexistinUsers()
                   From users 
                   Where email = $uEmail
                   AND password = $uPassword;"; 
-    exeUserQuery()
-}
-
-function getRegistrate()
-{
-    //$userQuery = "Select email, user_id, password, club_id From users"; 
-    exeUserQuery()
+    exeUserQuery();
 }
 
 function exeUserQuery()
