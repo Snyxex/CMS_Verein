@@ -2,7 +2,7 @@ class AppCalendar extends HTMLElement {
   constructor() {
     super();
     this.currentDate = new Date();
-    this.appointments = []; // Format: { date: '2024-05-22', hour: 1, title: 'Mathe', room: 'R101' }
+    this.appointments = [];
   }
 
   connectedCallback() {
@@ -14,7 +14,6 @@ class AppCalendar extends HTMLElement {
     this.render();
   }
 
-  // Hilfsfunktion: Montag der aktuellen Woche finden
   getMonday(d) {
     const date = new Date(d);
     const day = date.getDay();
@@ -22,23 +21,14 @@ class AppCalendar extends HTMLElement {
     return new Date(date.setDate(diff));
   }
 
-  // Hilfsfunktion: Datum in YYYY-MM-DD Format
-  formatDate(date) {
-    return date.toISOString().split('T')[0];
-  }
-
   render() {
     const monday = this.getMonday(this.currentDate);
     const weekDays = [];
-    
-    // Erstelle Array mit Daten für Mo-Fr
     for (let i = 0; i < 5; i++) {
       const day = new Date(monday);
       day.setDate(monday.getDate() + i);
       weekDays.push(day);
     }
-
-    const timeSlots = [];
 
     this.innerHTML = `
     <link rel="stylesheet" href="/CMS_Verein/public/styles/calender.css">
@@ -50,7 +40,6 @@ class AppCalendar extends HTMLElement {
         </div>
         
         <div class="calendar-grid">
-          <div class="grid-label">Zeit</div>
           ${weekDays.map(d => `
             <div class="grid-label">
               ${d.toLocaleDateString('de-DE', { weekday: 'short' })}<br>
@@ -58,25 +47,30 @@ class AppCalendar extends HTMLElement {
             </div>
           `).join('')}
 
-          ${timeSlots.map((time, hourIndex) => `
-            <div class="time-cell">${time}</div>
-            ${weekDays.map(day => {
-              const dateStr = this.formatDate(day);
-              const isToday = this.formatDate(new Date()) === dateStr ? 'is-today' : '';
-              const app = this.appointments.find(a => a.date === dateStr && parseInt(a.hour) === hourIndex);
-              
-              return `
-                <div class="day-cell ${isToday}">
-                  ${app ? `
-                    <div class="appointment">
-                      <div class="subject">${app.title}</div>
-                      <div class="room">${app.room || '-'}</div>
-                    </div>
-                  ` : ''}
-                </div>
-              `;
-            }).join('')}
-          `).join('')}
+          ${weekDays.map(day => {
+            const dateStr = day.toISOString().split('T')[0];
+            const isToday = new Date().toISOString().split('T')[0] === dateStr ? 'is-today' : '';
+            const dailyApps = this.appointments.filter(a => a.date === dateStr);
+            
+            return `
+              <div class="day-cell ${isToday}">
+                ${dailyApps.map((app, index) => `
+                  <div class="appointment" data-date="${dateStr}" data-index="${index}">
+                    <span class="subject">${app.title}</span>
+                    <span class="room">${app.room || ''}</span>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div id="infoModal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <h3 id="modalTitle"></h3>
+          <p id="modalBody"></p>
         </div>
       </div>
     `;
@@ -85,22 +79,26 @@ class AppCalendar extends HTMLElement {
   }
 
   initEventListeners() {
-    const prevBtn = this.querySelector('#prevWeek');
-    const nextBtn = this.querySelector('#nextWeek');
+    this.querySelector('#prevWeek').onclick = () => {
+      this.currentDate.setDate(this.currentDate.getDate() - 7);
+      this.render();
+    };
+    this.querySelector('#nextWeek').onclick = () => {
+      this.currentDate.setDate(this.currentDate.getDate() + 7);
+      this.render();
+    };
 
-    if(prevBtn) {
-      prevBtn.onclick = () => {
-        this.currentDate.setDate(this.currentDate.getDate() - 7);
-        this.render();
+    const modal = this.querySelector('#infoModal');
+    this.querySelectorAll('.appointment').forEach(el => {
+      el.onclick = () => {
+        const app = this.appointments.filter(a => a.date === el.dataset.date)[el.dataset.index];
+        this.querySelector('#modalTitle').innerText = app.title;
+        this.querySelector('#modalBody').innerText = `Raum: ${app.room || 'Kein Raum'}\nInfo: ${app.description || '-'}`;
+        modal.classList.add('active');
       };
-    }
+    });
 
-    if(nextBtn) {
-      nextBtn.onclick = () => {
-        this.currentDate.setDate(this.currentDate.getDate() + 7);
-        this.render();
-      };
-    }
+    this.querySelector('.close-btn').onclick = () => modal.classList.remove('active');
   }
 }
 

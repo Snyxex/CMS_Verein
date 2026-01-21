@@ -78,7 +78,7 @@ html,body {
   border-radius: 20px;
   border: 0 !important;
   outline: 0 !important;
-  background: teal;
+  background: rgb(0, 128, 128);
   color: white;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
