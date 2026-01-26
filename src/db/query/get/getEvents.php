@@ -1,22 +1,40 @@
 <?php
 header('Content-Type: application/json');
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 include '../../db.php';
 
-// Abfrage ausführen
 try {
-    $sql = "SELECT event_id, title, event_date as date, location as room, description FROM events";
-    
+    // Wir holen alle Spalten, die du für die Anzeige brauchst
+    $sql = "SELECT 
+                event_id, 
+                title, 
+                event_date, 
+                location, 
+                street, 
+                zip, 
+                description 
+            FROM events 
+            ORDER BY event_date ASC";
+
     $result = query($connection, $sql); 
 
     $events = [];
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-            $events[] = $row;
+            // Wir bereiten die Daten für JavaScript vor
+            $events[] = [
+                'id'          => $row['event_id'],
+                'title'       => $row['title'],
+                'start'       => $row['event_date'], // 'start' ist Standard für viele Kalender
+                'location'    => $row['location'],
+                'address'     => $row['street'] . ', ' . $row['zip'], // Adresse zusammenfügen
+                'description' => $row['description']
+            ];
         }
     }
+    
     echo json_encode($events);
+
 } catch (Exception $e) {
+    http_response_code(500);
     echo json_encode(["error" => $e->getMessage()]);
 }
