@@ -2,9 +2,11 @@
 include "../get/getUsers.php";
 
 
-getExistinUsers($connection);
+$userQuery = getExistinUsers($connection);
 
-    echo "klappt";
+if($userQuery != false)
+{
+    
     //Hier den Seitenwechsel mit den Nutzerdaten ausführen
-
+}
 ?>
