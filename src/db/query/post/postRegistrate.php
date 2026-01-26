@@ -2,11 +2,10 @@
 include "../get/getUsers.php";
 
 
-getExistinUsers();
+$userQuery = getExistinUsers($connection);
 
-if($users == false){
-
-    echo "klappt";
+if($userQuery == false)
+{
+    //Insert
 }
-
 ?>
