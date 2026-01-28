@@ -1,3 +1,17 @@
+body {
+    margin: 0;
+    position: relative;
+}
+
+.background {
+    position: fixed;
+    inset: 0;
+    background-image: url('../../Bilder/hintergrund.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
 .footer {
     border-top: 1px solid #ddd;
     font-family: Arial, sans-serif;
