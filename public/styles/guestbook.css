@@ -1,0 +1,130 @@
+/* Grundlayout */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #fff;
+}
+
+/* Navbar Fix */
+app-navbar {
+    display: block;
+    width: 100%;
+}
+
+/* Der Zwei-Spalten Wrapper */
+.page-wrapper {
+    display: grid;
+    /* Links 400px fest, rechts der Rest */
+    grid-template-columns: 400px 1fr; 
+    gap: 30px;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+    align-items: start;
+}
+
+/* Formular Container */
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.form-container h1 {
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* DIE FIXES FÜR DAS FORMULAR (Deine Section) */
+.comment-form {
+    display: flex;
+    flex-direction: column; /* Alles sauber untereinander */
+}
+
+.comment-form label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4a5568;
+    display: block;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px; /* Abstand zum nächsten Label */
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #f8fafc;
+    box-sizing: border-box; /* Verhindert das "Herausquellen" */
+    transition: border-color 0.2s;
+}
+
+.comment-form input[type="text"]:focus,
+.comment-form textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    background: #fff;
+}
+
+.comment-form input[type="submit"] {
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.comment-form input[type="submit"]:hover {
+    background: #3498db;
+}
+
+/* Gästebuch Container */
+.guestbook-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.guestbook-container h1 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+/* Style für die dynamischen Kommentare aus deinem script.js */
+.commentList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Falls dein script.js "comment-item" Klassen erstellt */
+.comment-entry-item {
+    padding: 20px;
+    background: #f8f9fa;
+    border-left: 5px solid #3498db;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Mobile: Alles untereinander */
+@media (max-width: 1000px) {
+    .page-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-container {
+        max-width: 100%;
+    }
+}
