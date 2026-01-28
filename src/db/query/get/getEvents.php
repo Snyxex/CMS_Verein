@@ -3,7 +3,6 @@ header('Content-Type: application/json');
 include '../../db.php';
 
 try {
-    // Wir holen alle Spalten, die du für die Anzeige brauchst
     $sql = "SELECT 
                 event_id, 
                 title, 
@@ -20,21 +19,25 @@ try {
     $events = [];
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-            // Wir bereiten die Daten für JavaScript vor
             $events[] = [
-                'id'          => $row['event_id'],
-                'title'       => $row['title'],
-                'start'       => $row['event_date'], // 'start' ist Standard für viele Kalender
-                'location'    => $row['location'],
-                'address'     => $row['street'] . ', ' . $row['zip'], // Adresse zusammenfügen
-                'description' => $row['description']
+                'event_id'    => (int)$row['event_id'],
+                'title'       => $row['title'] ?? '',
+                'event_date'  => $row['event_date'],
+                'location'    => $row['location'] ?? '',
+                'street'      => $row['street'] ?? '',
+                'zip'         => $row['zip'] ?? '',
+                'description' => $row['description'] ?? ''
             ];
         }
     }
     
+ 
     echo json_encode($events);
 
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(["error" => $e->getMessage()]);
+    echo json_encode([
+        "error" => $e->getMessage()
+    ]);
 }
+?>

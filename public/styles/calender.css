@@ -29,6 +29,8 @@ html, body {
   font-size: 1.1rem;
   color: #1a73e8;
   margin: 0;
+  flex: 1; 
+  text-align: center;
 }
 
 .calendar-header button {
@@ -41,12 +43,28 @@ html, body {
   font-weight: 500;
 }
 
-/* Das Raster: 5 Spalten für Mo-Fr */
+
+.calendar-header #nextWeek {
+  margin-left: auto; 
+}
+
+.today-btn {
+  background: #ffffff;
+  border: 1px solid #dadce0;
+  color: #3c4043;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 8px; 
+}
+
+
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   background: #eeeeee; 
-  gap: 1px; /* Erzeugt die Gitterlinien */
+  gap: 1px; 
 }
 
 .grid-label {
@@ -61,7 +79,7 @@ html, body {
 
 .day-cell {
   background: white;
-  min-height: 400px; /* Damit der Kalender eine feste Höhe hat */
+  min-height: 400px; 
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -72,7 +90,7 @@ html, body {
   background: #f1f8ff;
 }
 
-/* Dein Termin-Style */
+
 .appointment {
   background: #e8f0fe;
   border-left: 4px solid #1a73e8;
@@ -101,7 +119,7 @@ html, body {
   font-style: italic;
 }
 
-/* Modal Styling */
+
 .modal {
   display: none;
   position: fixed;

@@ -3,19 +3,26 @@ class AppCalendar extends HTMLElement {
     super();
     this.currentDate = new Date();
     this.appointments = [];
+    this.modalClickHandler = null; // Speichern des Event-Handlers
   }
 
   connectedCallback() {
     this.render();
   }
 
+  disconnectedCallback() {
+    // Aufräumen beim Entfernen des Elements
+    if (this.modalClickHandler) {
+      window.removeEventListener('click', this.modalClickHandler);
+    }
+  }
 
   setAppointments(data) {
     console.log("Daten empfangen!");
     console.table(data); 
     this.appointments = data;
     this.render();
-}
+  }
 
   getMonday(d) {
     const date = new Date(d);
@@ -33,12 +40,16 @@ class AppCalendar extends HTMLElement {
       weekDays.push(day);
     }
 
+    // Heute-Datum einmal berechnen
+    const todayStr = new Date().toISOString().split('T')[0];
+
     this.innerHTML = `
       <link rel="stylesheet" href="/CMS_Verein/public/styles/calender.css">
       <div class="calendar-container">
         <div class="calendar-header">
           <button id="prevWeek"> Zurück </button>
           <h2>Woche vom ${monday.toLocaleDateString('de-DE')}</h2>
+          <button id="todayBtn" class="today-btn">Heute</button>
           <button id="nextWeek"> Vorwärts </button>
         </div>
         
@@ -51,33 +62,31 @@ class AppCalendar extends HTMLElement {
           `).join('')}
 
           ${weekDays.map(day => {
- 
-    const year = day.getFullYear();
-    const month = String(day.getMonth() + 1).padStart(2, '0');
-    const date = String(day.getDate()).padStart(2, '0');
-    const dateStr = `${year}-${month}-${date}`; // Ergibt "2026-01-26"
-    
-    const isToday = new Date().toISOString().split('T')[0] === dateStr ? 'is-today' : '';
-    
-   
-    const dailyApps = this.appointments.filter(a => {
-        if (!a.event_date) return false;
-        
-        const dbDateShort = a.event_date.substring(0, 10);
-        return dbDateShort === dateStr;
-    });
-    
-    return `
-        <div class="day-cell ${isToday}">
-            ${dailyApps.map((app, index) => `
-                <div class="appointment" data-date="${dateStr}" data-index="${index}">
+            const year = day.getFullYear();
+            const month = String(day.getMonth() + 1).padStart(2, '0');
+            const date = String(day.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${date}`;
+            
+            const isToday = todayStr === dateStr ? 'is-today' : '';
+            
+            // Termine für diesen Tag filtern
+            const dailyApps = this.appointments.filter(a => {
+              if (!a.event_date) return false;
+              const dbDateShort = a.event_date.substring(0, 10);
+              return dbDateShort === dateStr;
+            });
+            
+            return `
+              <div class="day-cell ${isToday}">
+                ${dailyApps.map((app, index) => `
+                  <div class="appointment" data-date="${dateStr}" data-index="${index}">
                     <span class="subject">${app.title}</span>
                     <span class="room">${app.location || ''}</span>
-                </div>
-            `).join('')}
-        </div>
-    `;
-}).join('')}
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }).join('')}
         </div>
       </div>
 
@@ -94,23 +103,44 @@ class AppCalendar extends HTMLElement {
   }
 
   initEventListeners() {
- 
-    this.querySelector('#prevWeek').onclick = () => {
-      this.currentDate.setDate(this.currentDate.getDate() - 7);
-      this.render();
-    };
-    this.querySelector('#nextWeek').onclick = () => {
-      this.currentDate.setDate(this.currentDate.getDate() + 7);
-      this.render();
-    };
-
+    // Alten window click handler entfernen
+    if (this.modalClickHandler) {
+      window.removeEventListener('click', this.modalClickHandler);
+    }
 
     const modal = this.querySelector('#infoModal');
+
+    // Navigations-Buttons
+    this.querySelector('#prevWeek').onclick = () => {
+      this.currentDate.setDate(this.currentDate.getDate() - 7);
+      modal.classList.remove('active'); // Modal schließen bei Navigation
+      this.render();
+    };
+
+    this.querySelector('#todayBtn').onclick = () => {
+      this.currentDate = new Date(); // Zurück zu heute
+      modal.classList.remove('active');
+      this.render();
+    };
+
+    this.querySelector('#nextWeek').onclick = () => {
+      this.currentDate.setDate(this.currentDate.getDate() + 7);
+      modal.classList.remove('active'); // Modal schließen bei Navigation
+      this.render();
+    };
+
+    // Termin-Klick-Handler
     this.querySelectorAll('.appointment').forEach(el => {
       el.onclick = () => {
         const dateStr = el.dataset.date;
-        const index = el.dataset.index;
-        const dailyApps = this.appointments.filter(a => a.event_date === dateStr);
+        const index = parseInt(el.dataset.index);
+        
+        // FIX: Konsistenter Datums-Vergleich
+        const dailyApps = this.appointments.filter(a => {
+          if (!a.event_date) return false;
+          return a.event_date.substring(0, 10) === dateStr;
+        });
+        
         const app = dailyApps[index];
 
         if (app) {
@@ -127,14 +157,18 @@ class AppCalendar extends HTMLElement {
       };
     });
 
-    this.querySelector('.close-btn').onclick = () => modal.classList.remove('active');
+    // Modal schließen
+    this.querySelector('.close-btn').onclick = () => {
+      modal.classList.remove('active');
+    };
     
-   
-    window.onclick = (event) => {
-      if (event.target == modal) {
+    // Window click handler mit Referenz speichern
+    this.modalClickHandler = (event) => {
+      if (event.target === modal) {
         modal.classList.remove('active');
       }
     };
+    window.addEventListener('click', this.modalClickHandler);
   }
 }
 

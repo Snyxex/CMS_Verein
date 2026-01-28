@@ -1,35 +1,25 @@
 <?php
-include "../../src/db.php";
+header('Content-Type: application/json');
+include '../../db.php';
 
 
+try{
+$sql = "SELECT name, message, created_at FROM guestbook ORDER BY created_at DESC";
 
-function allPosts()
-{
-    $postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
-                From posts as p, clubs as c
-                Where p.club_id = c.club_id";
-    exePostQuery();
+$result = query($connection, $sql); 
+
+$comments = [];
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $comments[] = $row;
+    }
 }
-
-
-function getPostsbyDate($date)
-{
-    /*$postsQuery = "Select p.title, c.name, p.title, p.content, p.image, p.created_at
-                From posts as p, clubs as c
-                Where p.created_at = $date  
-                AND p.club_id = c.club_id";
-                */
-    $postsQuery = $postsQuery + "AND p.created_at = $date";
-    exePostQuery();
+echo json_encode($comments);
+}catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        "error" => $e->getMessage()
+    ]);
 }
-
-
-function exePostQuery()
-{
-    $posts = query($connection, $postsQuery);
-    return $posts;
-}
-
-
 
 ?>

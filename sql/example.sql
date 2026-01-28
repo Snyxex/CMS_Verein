@@ -16,8 +16,8 @@ INSERT INTO events (club_id, title, event_date, location, street, zip) VALUES
 (1, 'Sommerfest', '2025-07-20', 'Festwiese', 'Wiesenstraße 10', '12345'),
 (2, 'Blitzschach-Abend', '2025-02-05', 'Café Denkpause', 'Schachmatt-Allee 64', '54321');
 
-INSERT INTO guestbook (club_id, name, email, message) VALUES 
-(1, 'Max Mustermann', 'max@web.de', 'Tolle Website! Viel Erfolg für die Rückrunde.'),
+INSERT INTO guestbook (club_id, name, message) VALUES 
+(1, 'Max Mustermann','Tolle Website! Viel Erfolg für die Rückrunde.'),
 (2, 'Sven Springer', NULL, 'Gibt es bei euch auch Jugendtraining?');
 
 INSERT INTO members (club_id, name, role, description) VALUES 
