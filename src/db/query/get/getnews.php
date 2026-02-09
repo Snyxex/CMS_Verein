@@ -68,4 +68,10 @@ function loadMore(offset) {
     // Falls deine Datei nicht 'seetable.php' heißt, musst du den Namen hier anpassen!
     window.location.href = 'seetable.php?offset=' + offset;
 }
+<<<<<<< Updated upstream
 </script>
+=======
+</script>
+
+
+>>>>>>> Stashed changes
