@@ -17,5 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Fehler beim Speichern: " . mysqli_error($connection);
     }
+    close($connection);
 }
 ?>

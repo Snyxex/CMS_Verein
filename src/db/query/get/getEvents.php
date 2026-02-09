@@ -31,7 +31,7 @@ try {
         }
     }
     
- 
+    close($connection);
     echo json_encode($events);
 
 } catch (Exception $e) {

@@ -12,6 +12,7 @@ function getExistinUsers($connection)
     query($connection, $userQuery);
 
     return $userQuery;
+    close($connection);
 }
 
 ?>
