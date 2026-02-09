@@ -9,6 +9,7 @@
 
 <body>
      <script src="../src/components/navbar.js"></script>
+     <script src="./scripts/getPosts.js"></script>
 
       <app-navbar></app-navbar>
 
@@ -19,7 +20,7 @@
         <div class="form-container">
             <h1>Kommentar hinterlassen &#128077;</h1>
 
-            <form action="./src/save_data.php" method="post">
+            <form action="/CMS_Verein/src/db/query/post/postPosts.php" method="post">
                 <section class="comment-form">
 
                     <label for="name">Name:</label>

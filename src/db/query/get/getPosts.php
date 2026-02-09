@@ -1,25 +1,20 @@
 <?php
 header('Content-Type: application/json');
-include '../../db.php';
 
+include '../../db.php'; 
 
-try{
-$sql = "SELECT name, message, created_at FROM guestbook ORDER BY created_at DESC";
+try {
+    $sql = "SELECT name, message, created_at FROM guestbook ORDER BY created_at DESC";
+    $result = mysqli_query($connection, $sql);
 
-$result = query($connection, $sql); 
-
-$comments = [];
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $comments[] = $row;
+    $comments = [];
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $comments[] = $row;
+        }
     }
-}
-echo json_encode($comments);
-}catch (Exception $e) {
+    echo json_encode($comments);
+} catch (Exception $e) {
     http_response_code(500);
-    echo json_encode([
-        "error" => $e->getMessage()
-    ]);
+    echo json_encode(["error" => $e->getMessage()]);
 }
-
-?>
