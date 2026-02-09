@@ -34,7 +34,7 @@ class AppCalendar extends HTMLElement {
   render() {
     const monday = this.getMonday(this.currentDate);
     const weekDays = [];
-    for (let i = 0; i < 5; i++) { 
+    for (let i = 0; i < 7; i++) { 
       const day = new Date(monday);
       day.setDate(monday.getDate() + i);
       weekDays.push(day);
