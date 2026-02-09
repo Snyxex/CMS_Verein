@@ -7,16 +7,16 @@ class AppFooter extends HTMLElement{
         <div class="footer-column">
             <h3>Top Kategorien</h3>
             <ul>
-                <li><a href="./public/footer/hometrikot.html">Home Trikot</a></li>
-                <li><a href="public/footer/awaytrikot.html">Away Trikot</a></li>
-                <li><a href="./public/footer/Torwarttrikot.html">Torwart Trikot</a></li>
+                <li><a href="/CMS_Verein/public/footer/hometrikot.html">Home Trikot</a></li>
+                <li><a href="/CMS_Verein/public/footer/awaytrikot.html">Away Trikot</a></li>
+                <li><a href="/CMS_Verein/public/footer/Torwarttrikot.html">Torwart Trikot</a></li>
             </ul>
         </div>
 
         <div class="footer-column">
             <h3>Hilfe & Services</h3>
             <ul>
-                <li><a href="./public/footer/Kontakt.html">Kontakt</a></li>
+                <li><a href="/CMS_Verein/public/footer/Kontakt.html">Kontakt</a></li>
             </ul>
         </div>
 
@@ -33,8 +33,8 @@ class AppFooter extends HTMLElement{
     <div class="footer-bottom">
         <p>© 2026 Dein Verein e.V.</p>
         <div class="footer-links">
-            <a href="./public/footer/impressum.html">Impressum</a>
-            <a href="./public/footer/Datenschutz.html">Datenschutz</a>
+            <a href="/CMS_Verein/public/footer/impressum.html">Impressum</a>
+            <a href="/CMS_Verein/public/footer/Datenschutz.html">Datenschutz</a>
 
         </div>
     </div>
