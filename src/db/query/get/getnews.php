@@ -9,8 +9,6 @@
 // Standardwert ist 0, falls kein Offset in der URL übergeben wurde
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;        //intval Wandelt den übergebenen Offset-Wert in einen Integer. : 0 = Wenn der offset nicht existiert, wird der Standardwert 0 benutzt.
 
-// Verbindung zur Datenbank herstellen
-$connection = mysqli_connect($host, $username, $password, $database);
 
 // Überprüfen, ob die Verbindung erfolgreich ist
 if (!$connection) {
