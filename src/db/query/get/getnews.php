@@ -1,9 +1,9 @@
 <?php
 // Verweise auf ein Stylesheet
-echo '<link rel="stylesheet" type="text/css" href="style.css">';
-include '../../db.php'; 
+//echo '<link rel="stylesheet" type="text/css" href="style.css">';
+
 // Datenbankverbindungsinformationen
-    
+   include '../../db.php';  
 
 // Offset-Wert aus der URL holen für Seitenblätter
 // Standardwert ist 0, falls kein Offset in der URL übergeben wurde
