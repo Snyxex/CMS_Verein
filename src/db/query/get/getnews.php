@@ -73,5 +73,3 @@ function loadMore(offset) {
 }
 </script>
 
-
-</html>
