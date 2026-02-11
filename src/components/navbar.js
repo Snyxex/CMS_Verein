@@ -11,7 +11,7 @@ class AppNavbar extends HTMLElement {
             <li><a href="/CMS_Verein/index.html">Home</a></li>
             <li><a href="/CMS_Verein/public/calender.html">Kalender</a></li>
             <li><a href="/CMS_Verein/public/guestbook.html">Gästebuch</a></li>
-            <li><a href="/CMS_Verein/public/news.html">News</a></li>
+            <li><a href="/CMS_Verein/src/db/query/news.php">News</a></li>
           </ul>
 
           <div class="nav-right">
@@ -30,7 +30,7 @@ class AppNavbar extends HTMLElement {
           <a href="/CMS_Verein/index.html">Home</a>
           <a href="/CMS_Verein/public/calender.html">Kalender</a>
           <a href="/CMS_Verein/public/guestbook.html">Gästebuch</a>
-          <a href="/CMS_Verein/public/news.html">News</a>
+          <a href="/CMS_Verein/src/db/query/news.php">News</a>
           <div class="divider"></div>
           <a href="/CMS_Verein/public/auth/login.html">Login</a>
           <a href="/CMS_Verein/public/auth/register.html">Register</a>
