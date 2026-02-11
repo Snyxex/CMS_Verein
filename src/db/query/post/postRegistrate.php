@@ -2,10 +2,18 @@
 include "../get/getUsers.php";
 
 
-$userQuery = getExistinUsers($connection);
 
-if($userQuery == false)
-{
-    //Insert
-}
+$user = getExistinUsers($connection);
+
+    $row = $user->fetch_assoc();
+
+        if($row["email"] == "" || $row["password"] == "")
+        {
+            InsertUser($connection);
+        }
+        else
+        {
+            echo "Nutzer existiert schon";
+        }
+
 ?>

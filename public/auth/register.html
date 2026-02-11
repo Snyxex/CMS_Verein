@@ -13,12 +13,10 @@
 <div class="container">
    <div class="form-container">
       <p class="title">Registieren</p>
-      <form class="form">
-        <input type="email" class="input" placeholder="Email">
-        <input type="password" class="input" placeholder="Password">
-        <p class="page-link">
-          <span class="page-link-label"><a href="./forgot_password.html">Password Vergessen?</a></span>
-        </p>
+      <form class="form" action="../../src/db/query/post/postRegistrate.php" method="post">
+        <input type="email" class="input" placeholder="Email" name="email">
+        <input type="text" class="input" placeholder="Username" name="username">
+        <input type="password" class="input" placeholder="Password" name="password">
         <button class="form-btn">Sign up</button>
       </form>
       <p class="sign-up-label">
