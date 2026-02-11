@@ -1,77 +1,30 @@
 <?php
-// Fehleranzeige einschalten (hilft beim Debuggen)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Versuche den Pfad absolut zu setzen, damit es keine Verwirrung gibt
+$dbPath = __DIR__ . '/../../db.php';
 
-include '../../db.php';  
+if (file_exists($dbPath)) {
+    include $dbPath;
+} else {
+    die("Fehler: db.php wurde nicht gefunden unter: " . $dbPath);
+}
 
-// Offset-Wert sicher holen
+// Prüfen ob $connection existiert (aus db.php)
+if (!isset($connection)) {
+    die("Fehler: Die Variable \$connection wurde in db.php nicht definiert.");
+}
+
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 if ($offset < 0) $offset = 0;
 
-if (!$connection) {
-    die("Verbindung fehlgeschlagen: " . mysqli_connect_error());
-}
+$sql = "SELECT * FROM posts ORDER BY created_at DESC LIMIT 6 OFFSET $offset";
 
-// SQL angepasst: 'datum' wurde durch 'created_at' ersetzt, da 'datum' nicht existiert
-$sql = "SELECT * FROM posts ORDER BY created_at DESC LIMIT 5 OFFSET $offset";
-$result = query($connection, $sql);
+// Hier könnte der Fehler liegen, falls 'query' keine Standard-Funktion ist
+$result = mysqli_query($connection, $sql); 
 
-if ($result && $result->num_rows > 0) {
-    echo '<div class="maintable">';
-    echo "<table border='1'>";
-    
-    // Header angepasst an deine tatsächliche SQL-Tabelle
-    echo "<tr>
-            <th>ID</th>
-            <th>Titel</th>
-            <th>Inhalt</th>
-            <th>Bild</th>
-            <th>Datum</th>
-          </tr>";
-
-    while ($row = $result->fetch_assoc()) {
-        // Wir nutzen 'created_at', da dies der Name in deiner SQL-Tabelle ist
-        $datum_formatiert = date("d.m.Y H:i", strtotime($row["created_at"]));
-
-        echo "<tr>
-                <td>" . htmlspecialchars($row["post_id"]) . "</td>
-                <td>" . htmlspecialchars($row["title"]) . "</td>
-                <td>" . htmlspecialchars($row["content"]) . "</td>
-                <td>" . htmlspecialchars($row["image"] ?? 'Kein Bild') . "</td>
-                <td>" . $datum_formatiert . " Uhr</td>
-              </tr>";
+$news_items = [];
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $news_items[] = $row;
     }
-
-    echo "</table>";
-    echo '</div>';
-} else {
-    echo "<p>Keine weiteren Beiträge gefunden.</p>";
-}
-
-// Pagination Logik
-$nextOffset = $offset + 5;
-$prevOffset = $offset - 5;
-
-if ($offset > 0) {
-    echo '<button onclick="loadMore(' . $prevOffset . ')">Vorherige Seite</button> ';
-}
-
-// Prüfen, ob noch mehr Daten kommen könnten
-if ($result && $result->num_rows == 5) {
-    echo '<button onclick="loadMore(' . $nextOffset . ')">Nächste Seite</button>';
 }
 ?>
-
-<script>
-function loadMore(offset) {
-    // Falls deine Datei nicht 'seetable.php' heißt, musst du den Namen hier anpassen!
-    window.location.href = 'seetable.php?offset=' + offset;
-}
-<<<<<<< Updated upstream
-</script>
-=======
-</script>
-
-
->>>>>>> Stashed changes
