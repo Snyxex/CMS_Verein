@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyApp</title>
     <link rel="stylesheet" href="./public/styles/home.css">
-  
+
 </head>
+
 <body>
 
     <app-navbar></app-navbar>
@@ -14,9 +16,51 @@
 
     <!-- Hintergrundbild -->
     <div class="background"></div>
-    
+
+    <!-- HERO / VEREIN -->
+    <section class="hero">
+        <img id="clubLogo" alt="Vereinslogo">
+        <h1 id="clubName"></h1>
+        <p id="clubDescription"></p>
+    </section>
+
+    <!-- NEWS -->
+    <section class="news">
+        <h2 class="section-title">Aktuelle News</h2>
+        <div id="newsContainer"></div>
+    </section>
+
+    <!-- EVENT -->
+    <section class="event">
+        <h2 class="section-title">Nächster Termin</h2>
+
+        <div class="event-item">
+            <h3>Turnier</h3>
+
+            <div class="event-meta">
+                <span>Datum: 11.02.2026</span>
+                <span>Ort: Vereinsheim am Sportplatz</span>
+            </div>
+            </p>
+        </div>
+
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div>
+            <strong id="memberCount">0</strong>
+            <span>Mitglieder</span>
+        </div>
+        <div>
+            <strong id="eventCount">0</strong>
+            <span>Termine</span>
+        </div>
+    </section>
+
 </body>
 <app-footer></app-footer>
 <script src="./src/components/footer.js"></script>
+<script src="./public/scripts/getHome.js"></script>
 
 </html>
