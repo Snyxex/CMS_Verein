@@ -9,9 +9,9 @@ function getExistinUsers($connection)
                   From users 
                   Where email = '$uEmail'
                   AND password = '$uPassword';"; 
-    query($connection, $userQuery);
+    $user = query($connection, $userQuery);
 
-    return $userQuery;
+    return $user;
     close($connection);
 }
 

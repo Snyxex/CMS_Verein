@@ -18,7 +18,7 @@ INSERT INTO events (club_id, title, event_date, location, street, zip) VALUES
 
 INSERT INTO guestbook (club_id, name, message) VALUES 
 (1, 'Max Mustermann','Tolle Website! Viel Erfolg für die Rückrunde.'),
-(2, 'Sven Springer', NULL, 'Gibt es bei euch auch Jugendtraining?');
+(2, 'Sven Springer','Gibt es bei euch auch Jugendtraining?');
 
 INSERT INTO members (club_id, name, role, description) VALUES 
 (1, 'Thomas Trainer', 'Cheftrainer', 'Seit 10 Jahren im Verein und verantwortlich für die Taktik.'),

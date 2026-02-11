@@ -2,11 +2,17 @@
 include "../get/getUsers.php";
 
 
-$userQuery = getExistinUsers($connection);
+$user = getExistinUsers($connection);
 
-if($userQuery != false)
-{
-    
-    //Hier den Seitenwechsel mit den Nutzerdaten ausführen
-}
+    $row = $user->fetch_assoc();
+
+        if($row["user_id"] != "" || $row["role"] != "")
+        {
+            header("Location: /CMS_Verein/public/admin/dashboard.html");
+        }
+        else
+        {
+            echo "Nutzer existiert nicht";
+        }
+
 ?>
