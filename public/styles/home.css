@@ -1,298 +1,158 @@
-/* Grundlayout */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --primary: #2563eb;
+    --text-main: #1e293b;
+    --text-light: #f8fafc;
+    --white: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --radius: 20px;
 }
+
 body {
     margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: #fff;
+    font-family: 'Inter', sans-serif;
+    background-color: #f1f5f9;
+    color: var(--text-main);
+    overflow-x: hidden;
 }
 
-/* Navbar Fix */
-app-navbar {
-    display: block;
-    width: 100%;
-}
 /* =========================
-   HERO SECTION – MODERN
+   HINTERGRUND & HERO
 ========================= */
-
-.hero {
-    position: relative;
-    height: 70vh;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 40px 20px;
-    color: #ffffff;
-    overflow: hidden;
-}
-
-/* Hintergrundbild */
+/* Wir legen das Bild hinter alles andere */
 .background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 70vh;
-    min-height: 500px;
-    background: url("../images/hero.jpg") center/cover no-repeat;
-    z-index: -2;
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url("../images/hero.jpg") center/cover no-repeat;
+    z-index: -1; /* Hinter dem Content */
 }
 
-/* Dunkler Overlay */
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: -1;
-}
-
-/* Logo */
-.hero img {
-    width: 130px;
-    height: 130px;
-    object-fit: contain;
-    margin-bottom: 25px;
-    background: rgba(255,255,255,0.1);
-    padding: 15px;
-    border-radius: 50%;
-    backdrop-filter: blur(5px);
-}
-
-/* Vereinsname */
-.hero h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-}
-
-/* Beschreibung */
-.hero p {
-    max-width: 700px;
-    font-size: 18px;
-    line-height: 1.6;
-    color: #dddddd;
-}
-
-
-/* =========================
-   MAIN CONTAINER
-========================= */
-.home-container {
-    max-width: 900px;
-    margin: 50px auto;
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column; /* Stapelt Logo, H1 und P untereinander */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white);
     padding: 0 20px;
 }
 
-/* Section Titel */
-.section-title {
-    font-size: 28px;
-    margin-bottom: 25px;
-    padding-left: 15px;
+#clubLogo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+}
+
+#clubName {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    margin: 0 0 15px 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+#clubDescription {
+    font-size: 1.25rem;
+    max-width: 700px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* =========================
-   EVENT CARD
+   NEWS & EVENT (Zentriert)
 ========================= */
-.event-item {
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    padding: 30px;
-    margin-bottom: 50px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.news, .event {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 20px;
 }
 
-.event-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    color: var(--text-main);
+    /* Falls über dem Hintergrundbild gescrollt wird, Weiß machen */
+    background: white;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 20px;
+    border-radius: 50px;
+}
+
+.event-item {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 40px;
+    text-align: center; /* Alles zentrieren */
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .event-item h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
+    font-size: 2rem;
+    margin-top: 0;
+    color: var(--primary);
 }
 
 .event-meta {
-    margin-bottom: 15px;
-    font-size: 15px;
-    color: #555;
-}
-
-.event-meta span {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.event-description {
-    margin-top: 10px;
-    font-size: 16px;
-}
-
-/* Event Bild */
-.event-image {
-    width: 100%;
-    max-height: 350px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: 20px;
 }
 
 /* =========================
-   NEWS SECTION
-========================= */
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
-
-.news-item {
-    background: #ffffff;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.news-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-}
-
-.news-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.news-content {
-    padding: 20px;
-}
-
-.news-content h4 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.news-content p {
-    font-size: 14px;
-    color: #555;
-}
-
-
-.btn:hover {
-    background: #333333;
-}
-
-/* =========================
-   EMPTY STATE
-========================= */
-.empty-state {
-    background: #ffffff;
-    padding: 30px;
-    text-align: center;
-    border-radius: 12px;
-    color: #777;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-
-/* =========================
-   STATS SECTION – CLEAN MODERN
+   STATS – Modern & Getrennt
 ========================= */
 .stats {
-    margin: 100px auto;
-    max-width: 1100px;
+    background: var(--text-main); /* Dunkler Kontrast-Bereich */
+    padding: 80px 0;
     display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    padding: 0 20px;
+    justify-content: center;
+    gap: 100px;
+    margin-top: 100px;
 }
 
 .stats div {
-    flex: 1;
-    background: #ffffff;
-    padding: 50px 20px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.stats div:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--white);
 }
 
 .stats strong {
-    display: block;
-    font-size: 56px;
-    font-weight: 700;
-    color: #000000;
-    margin-bottom: 10px;
+    font-size: 4rem;
+    color: var(--primary);
+    line-height: 1;
 }
 
 .stats span {
-    font-size: 15px;
-    color: #666666;
-    letter-spacing: 1px;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    color: #94a3b8;
 }
-
-
-
-
-
-
 
 /* =========================
    RESPONSIVE
 ========================= */
-@media (max-width: 900px) {
-    .hero h1 {
-        font-size: 32px;
-    }
-
-    .hero p {
-        font-size: 16px;
-    }
-
-    .event-item {
-        padding: 20px;
-    }
-}
-
-@media (max-width: 500px) {
-    .section-title {
-        font-size: 22px;
-    }
-
-    .hero {
-        padding: 60px 15px;
-    }
-
-    .hero h1 {
-        font-size: 26px;
-    }
-}
-/* Responsive */
 @media (max-width: 768px) {
     .stats {
+        flex-direction: column;
         gap: 50px;
-        padding: 40px 20px;
     }
-
-    .stats strong {
-        font-size: 36px;
+    
+    .event-meta {
+        flex-direction: column;
+        gap: 10px;
     }
 }

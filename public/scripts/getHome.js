@@ -5,7 +5,11 @@ fetch("/CMS_Verein/src/db/query/get/getHome.php")
         // Verein
         document.getElementById("clubName").textContent = data.club.name;
         document.getElementById("clubDescription").textContent = data.club.description;
-       document.getElementById("clubLogo").src = data.club.logo;
+        if (data.club && data.club.logo) {
+            document.getElementById("clubLogo").src = data.club.logo;
+        } else {
+            document.getElementById("clubLogo").style.display = "none"; // Logo verstecken, wenn kein Pfad da ist
+        }
 
         // News
         const newsContainer = document.getElementById("newsContainer");
@@ -20,18 +24,21 @@ fetch("/CMS_Verein/src/db/query/get/getHome.php")
             newsContainer.appendChild(div);
         });
 
-        // Event
+        const eventContainer = document.getElementById("nextEvent"); // Sicherstellen, dass die ID im HTML existiert!
+
         if (data.events) {
             const event = data.events;
-           const form =  document.getElementById("nextEvent");
-           form.classList.add("event-item");
-           form.innerHTML = `
-                <strong>${event.title}</strong><br>
-                ${event.event_date} – ${event.location}
-                event.description
-            `;
+            eventContainer.classList.add("event-item");
+            eventContainer.innerHTML = `
+        <h3>${event.title}</h3>
+        <div class="event-meta">
+            <span>Datum: ${new Date(event.event_date).toLocaleDateString('de-DE')}</span>
+            <span>Ort: ${event.location}</span>
+        </div>
+        <p style="margin-top: 15px;">${event.description}</p>
+    `;
         } else {
-            document.getElementById("nextEvent").textContent = "Kein Termin geplant";
+            eventContainer.innerHTML = "<p>Kein Termin geplant</p>";
         }
 
         // Stats
