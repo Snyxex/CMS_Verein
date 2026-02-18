@@ -6,35 +6,38 @@
     border-right: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
-    position: fixed; /* Fixiert am linken Rand */
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 1000;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03);
+    /* Standard-Schriftart für die gesamte Sidebar */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .sidebar-header {
-    padding: 30px 24px;
+    padding: 25px 24px;
     border-bottom: 1px solid #f1f5f9;
 }
 
 .sidebar-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.25rem; /* Etwas größer für bessere Präsenz */
     color: #0f172a;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 600;    /* Semi-Bold statt Extra-Bold */
+    text-transform: none; /* Normale Schreibweise (Groß-Kleinschreibung) */
+    letter-spacing: normal; /* Standard-Abstand */
 }
 
 /* Navigationsliste */
 .sidebar-nav {
     list-style: none;
     padding: 20px 12px;
-    flex-grow: 1;
+    flex-grow: 1; /* Nimmt den restlichen Platz ein */
 }
 
 .sidebar-nav li {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .sidebar-nav a {
@@ -45,22 +48,99 @@
     color: #64748b;
     font-weight: 500;
     border-radius: 12px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
-/* Hover & Active Status */
 .sidebar-nav a:hover {
     background-color: #f1f5f9;
     color: #2563eb;
+    transform: translateX(5px);
 }
 
 .sidebar-nav a.active {
     background-color: #eff6ff;
     color: #2563eb;
+    font-weight: 600;
 }
 
+
 .sidebar-footer {
-    padding: 20px 24px;
+    padding: 20px;
     border-top: 1px solid #f1f5f9;
-    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert den Button */
+    gap: 15px;
+}
+
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ef4444; /* Etwas moderneres Rot */
+}
+
+.sign {
+  width: 100%;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 18px;
+}
+
+.sign svg path {
+  fill: white;
+}
+
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  transition-duration: .3s;
+}
+
+/* Hover Effekt: Button verbreitert sich */
+.Btn:hover {
+  width: 140px; /* Etwas breiter für "Logout" Text */
+  border-radius: 12px; /* Eckig passend zur Sidebar-Optik */
+  transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 15px;
+}
+
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 10px;
+}
+
+.Btn:active {
+  transform: translate(2px ,2px);
+}
+
+.sidebar-footer small {
+    font-size: 0.75rem;
+    color: #cbd5e1;
 }
