@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitgliederverwaltung</title>
+    <link rel="stylesheet" href="../styles/admin/members.css">
+</head>
+
+<body>
+    <app-sidebar></app-sidebar>
+
+
+
+    <div class="main-content" style="margin-left: 260px;">
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Mitgliederverwaltung</h1>
+                    <p>Hier kannst du alle Vereinsmitglieder einsehen und verwalten.</p>
+                </div>
+                <button class="add-btn" id="openModal">＋ Neues Mitglied</button>
+            </header>
+
+            <section class="member-list-container">
+                <div class="table-controls">
+                    <input type="text" id="memberSearch" placeholder="Name suchen...">
+                </div>
+
+                <table class="member-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Eintritt</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberTableBody">
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="../../src/components/sidebar.js"></script>
+    <script src="../scripts/admin/memberManagement.js"></script>
+</body>
+
+</html>

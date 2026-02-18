@@ -9,7 +9,7 @@ class AppNavbar extends HTMLElement {
         <ul class="nav-center">
           <li><a href="/CMS_Verein/index.html">Home</a></li>
           <li><a href="/CMS_Verein/public/calender.html">Kalender</a></li>
-          <li><a href="/CMS_Verein/public/guestbook.html">Gästebuch</a></li>
+          <li><a href="/CMS_Verein/public/guestbook.html">Kommentare</a></li>
           <li><a href="/CMS_Verein/src/db/query/news.php">News</a></li>
         </ul>
 

@@ -3,10 +3,12 @@ html, body {
   padding: 0;
   width: 100%;
   font-family: "Lucida Sans", Geneva, Verdana, sans-serif;
+   background-image: url('../../Bilder/hintergrund.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .calendar-container {
-  background: #ffffff;
   color: #333;
   border-radius: 12px;
   overflow: hidden;
