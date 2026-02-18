@@ -42,8 +42,28 @@ fetch("/CMS_Verein/src/db/query/get/getHome.php")
         }
 
         // Stats
-        document.getElementById("memberCount").textContent = data.stats.members;
-        document.getElementById("eventCount").textContent = data.stats.events;
+       // document.getElementById("memberCount").textContent = data.stats.members;
+       // document.getElementById("eventCount").textContent = data.stats.events;
+       async function loadStats() {
+        try {
+            // 1. Mitgliederzahl holen
+            const memberResponse = await fetch('src/query/get/getmitglieder.php');
+            const memberCount = await memberResponse.text();
+            document.getElementById('memberCount').innerText = memberCount;
+    
+            // 2. Event-Anzahl holen (falls du dafür auch eine PHP-Datei hast)
+            // const eventResponse = await fetch('../CMS_Verein/src/db/query/get/geteventcount.php');
+            // const eventCount = await eventResponse.text();
+            // document.getElementById('eventCount').innerText = eventCount;
+    
+        } catch (error) {
+            console.error('Fehler beim Laden der Stats:', error);
+            document.getElementById('memberCount').innerText = '!';
+        }
+    }
+    
+    // Einmal beim Laden ausführen
+    updateMemberCount();
     })
     .catch(() => {
         console.error("Fehler beim Laden der Homepage-Daten");
