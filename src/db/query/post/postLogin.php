@@ -1,18 +1,28 @@
 <?php
 include "../get/getUsers.php";
 
+session_start();
 
-$user = getExistinUsers($connection);
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("Location: /CMS_Verein/public/admin/dashboard.html");
+    exit;
+}
 
-    $row = $user->fetch_assoc();
+   // if($Server['REQUEST_METHOD'] == "POST")
+    {
+        $user = getExistinUsers($connection);
+        $row = $user->fetch_assoc();
 
         if($row["user_id"] != "" || $row["email"] != "")
         {
-            header("Location: /CMS_Verein/public/admin/dashboard.html");
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $row["username"];
+
+            
         }
         else
         {
-            echo "Nutzer existiert nicht";
+            echo "Falscher Benutzername oder Passwort";
         }
-
+    }    
 ?>

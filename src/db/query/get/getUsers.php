@@ -30,12 +30,12 @@ function checkUser($connection)
 function InsertUser($connection)
 {
     $uEmail = $_POST['email'];
-    $uPassword = $_POST['password'];
     $uUsername = $_POST['username'];
+    $uPassword = $_POST['password'];
     $userInsert= "
                   INSERT INTO users 
                   (club_id, username, password, email, created_at)
-                  VALUES (1, $uUsername, $uUsername, $uEmail, CURDATE());";
+                  VALUES (1, '$uUsername', '$uPassword', '$uEmail', CURDATE());";
     $newUser = query($connection, $userInsert);
 
     close($connection);
