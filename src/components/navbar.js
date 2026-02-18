@@ -5,7 +5,7 @@ class AppNavbar extends HTMLElement {
     
       <nav class="navbar">
         <div class="navbar-inner">
-          <a href="/CMS_Verein/index.html" class="logo">MyApp</a>
+          <a href="/CMS_Verein/index.html" class="logo">FCB</a>
 
           <ul class="nav-center">
             <li><a href="/CMS_Verein/index.html">Home</a></li>
