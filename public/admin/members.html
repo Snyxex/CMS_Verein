@@ -13,38 +13,69 @@
 
 
 
-    <div class="main-content" style="margin-left: 260px;">
-        <main class="main-content">
-            <header class="page-header">
-                <div>
-                    <h1>Mitgliederverwaltung</h1>
-                    <p>Hier kannst du alle Vereinsmitglieder einsehen und verwalten.</p>
-                </div>
-                <button class="add-btn" id="openModal">＋ Neues Mitglied</button>
-            </header>
+    <main class="main-content">
+        <header class="page-header">
+            <div>
+                <h1>Benutzerverwaltung</h1>
+                <p>Verwalte Administratoren und Vereinsmitglieder an einem Ort.</p>
+            </div>
+            <button class="add-btn" id="openModal">＋ Neuer Eintrag</button>
+        </header>
 
-            <section class="member-list-container">
-                <div class="table-controls">
-                    <input type="text" id="memberSearch" placeholder="Name suchen...">
-                </div>
-
-                <table class="member-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Eintritt</th>
-                            <th>Aktionen</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memberTableBody">
+        <section class="member-list-container">
+            <div class="table-controls">
+                <input type="text" id="memberSearch" placeholder="Name, Email oder Rolle suchen...">
+            </div>
+            
+            <table class="member-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>E-Mail Adresse</th>
+                        <th>Rolle</th>
+                        <th>Typ</th>
+                        <th style="text-align: right;">Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody id="memberTableBody">
                     </tbody>
-                </table>
-            </section>
+            </table>
+        </section>
+    </main>
 
-        </main>
+    <div id="userModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">Eintrag bearbeiten</h2>
+        <form id="userForm">
+            <input type="hidden" id="entityId">
+            <div class="form-group">
+                <label>Konto-Typ</label>
+                <select id="typeSelect">
+                    <option value="Mitglied">Vereinsmitglied</option>
+                    <option value="Admin">Administrator</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="inputName" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="inputEmail">
+            </div>
+            <div class="form-group">
+                <label>Rolle</label>
+                <input type="text" id="inputRole">
+            </div>
+            <div class="form-group">
+                <label>Passwort</label>
+                <input type="password" id="inputPassword" placeholder="Passwort vergeben/ändern">
+            </div>
+            <button type="submit" class="save-btn">Speichern</button>
+        </form>
     </div>
+</div>
 
     <script src="../../src/components/sidebar.js"></script>
     <script src="../scripts/admin/memberManagement.js"></script>
