@@ -31,9 +31,4 @@ function login(){
     }
 }
 
-function endSession(){
-    session_unset();
-    session_destroy();
-}
-
 ?>

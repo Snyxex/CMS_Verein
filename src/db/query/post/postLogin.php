@@ -1,8 +1,7 @@
 <?php
 include "../get/getUsers.php";
 
-
-    //if($Server['REQUEST_METHOD'] == "POST")
+if($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $user = getExistinUsers($connection);
         $row = $user->fetch_assoc();

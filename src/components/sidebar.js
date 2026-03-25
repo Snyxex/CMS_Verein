@@ -65,6 +65,7 @@ class AppSidebar extends HTMLElement {
 }
 
 function logout() {
+
     window.location.href = "/CMS_Verein/index.html";
 }
 

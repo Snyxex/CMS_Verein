@@ -32,6 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
             commentList.innerHTML = "<p style='color: red;'>Fehler beim Laden der Kommentare.</p>";
         }
     }
-
+    
     loadComments();
 });
