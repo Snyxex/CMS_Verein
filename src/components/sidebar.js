@@ -48,7 +48,7 @@ class AppSidebar extends HTMLElement {
             <ul class="sidebar-nav">
                 <li><a href="/CMS_Verein/public/admin/dashboard.html">Home</a></li>
                 <li><a href="/CMS_Verein/public/admin/guestbook.html">Gästebuch</a></li>
-                <li><a href="/CMS_Verein/public/admin/calendar.html">Kalender</a></li>
+                <li><a href="/CMS_Verein/public/admin/calender.html">Kalender</a></li>
                 <li><a href="/CMS_Verein/public/admin/members.html">Mitglieder</a></li>
             </ul>
             <div class="sidebar-footer">
