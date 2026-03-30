@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminverwaltung</title>
     <link rel="stylesheet" href="../styles/admin/calender.css">
 </head>
@@ -18,6 +19,33 @@
         </header>
 
         <section class="member-list-container">
+            <div class="table-controls">
+                <div class="filter-group" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <input type="text" id="eventSearch" placeholder="Event oder Ort suchen..." style="flex: 2; min-width: 200px;">
+                    
+                    <select id="eventFilterMonth" style="flex: 1; min-width: 150px;">
+                        <option value="all">Alle Monate</option>
+                        <option value="0">Januar</option>
+                        <option value="1">Februar</option>
+                        <option value="2">März</option>
+                        <option value="3">April</option>
+                        <option value="4">Mai</option>
+                        <option value="5">Juni</option>
+                        <option value="6">Juli</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">Oktober</option>
+                        <option value="10">November</option>
+                        <option value="11">Dezember</option>
+                    </select>
+
+                    <select id="eventSortOrder" style="flex: 1; min-width: 150px;">
+                        <option value="asc">Älteste zuerst</option>
+                        <option value="desc">Neueste zuerst</option>
+                    </select>
+                </div>
+            </div>
+
             <table class="member-table">
                 <thead>
                     <tr>
@@ -40,7 +68,7 @@
                 <input type="hidden" id="eventId">
                 <div class="form-group">
                     <label>Titel des Events</label>
-                    <input type="text" id="eventTitle" required placeholder="z.B. Jahreshauptversammlung">
+                    <input type="text" id="eventTitle" required>
                 </div>
                 <div class="form-group">
                     <label>Datum</label>
@@ -48,7 +76,7 @@
                 </div>
                 <div class="form-group">
                     <label>Ort / Location</label>
-                    <input type="text" id="eventLocation" placeholder="Vereinsheim">
+                    <input type="text" id="eventLocation">
                 </div>
                 <div style="display: flex; gap: 10px;">
                     <div class="form-group" style="flex: 2;">

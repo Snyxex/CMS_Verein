@@ -1,8 +1,59 @@
+let allEvents = [];
+
+/**
+ * Lädt alle Events vom Server
+ */
 async function loadEvents() {
-    const response = await fetch('/CMS_Verein/src/db/query/get/admin/getEvent.php'); // Erstelle analog zu getMembers
-    const data = await response.json();
+    try {
+        const response = await fetch('/CMS_Verein/src/db/query/get/admin/getEvent.php');
+        allEvents = await response.json();
+        applyEventFilters();
+    } catch (error) {
+        console.error("Fehler beim Laden:", error);
+    }
+}
+
+/**
+ * Filtert und sortiert die Events
+ */
+function applyEventFilters() {
+    const searchTerm = document.getElementById("eventSearch").value.toLowerCase();
+    const monthFilter = document.getElementById("eventFilterMonth").value;
+    const sortOrder = document.getElementById("eventSortOrder").value;
+
+    let filtered = allEvents.filter(ev => {
+        const matchesSearch = ev.title.toLowerCase().includes(searchTerm) || 
+                              (ev.location && ev.location.toLowerCase().includes(searchTerm));
+        
+        const evDate = new Date(ev.event_date);
+        const matchesMonth = (monthFilter === "all") || 
+                             (evDate.getMonth().toString() === monthFilter);
+
+        return matchesSearch && matchesMonth;
+    });
+
+    // Sortierung
+    filtered.sort((a, b) => {
+        const dateA = new Date(a.event_date);
+        const dateB = new Date(b.event_date);
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+    });
+
+    renderEventTable(filtered);
+}
+
+/**
+ * Erzeugt das HTML für die Tabelle
+ */
+function renderEventTable(data) {
     const tableBody = document.getElementById("eventTableBody");
-    
+    if (!tableBody) return;
+
+    if (data.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Keine Termine gefunden.</td></tr>`;
+        return;
+    }
+
     tableBody.innerHTML = data.map(ev => `
         <tr>
             <td data-label="Datum"><strong>${new Date(ev.event_date).toLocaleDateString('de-DE')}</strong></td>
@@ -16,11 +67,14 @@ async function loadEvents() {
     `).join('');
 }
 
+// Initialisierung & Event Listener
 document.addEventListener("DOMContentLoaded", () => {
     loadEvents();
+
     const modal = document.getElementById("eventModal");
     const form = document.getElementById("eventForm");
 
+    // Modal öffnen
     document.getElementById("openEventModal").onclick = () => {
         form.reset();
         document.getElementById("eventId").value = "";
@@ -28,6 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.add("active");
     };
 
+    // Filter-Events
+    ["eventSearch", "eventFilterMonth", "eventSortOrder"].forEach(id => {
+        document.getElementById(id).addEventListener("input", applyEventFilters);
+    });
+
+    // Formular absenden
     form.onsubmit = async (e) => {
         e.preventDefault();
         const formData = {
@@ -40,20 +100,24 @@ document.addEventListener("DOMContentLoaded", () => {
             description: document.getElementById("eventDescription").value
         };
 
-        const res = await fetch('/CMS_Verein/src/db/query/get/admin/saveEvent.php', {
+        const res = await fetch('/CMS_Verein/src/db/query/post/admin/saveEvent.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData)
         });
         
-        if ((await res.json()).success) {
+        const result = await res.json();
+        if (result.success) {
             closeEventModal();
             loadEvents();
+        } else {
+            alert("Fehler beim Speichern!");
         }
     };
 });
 
-function handleEditEvent(encoded) {
+// Diese Funktionen müssen global (window) verfügbar sein für die onclick-Attribute
+window.handleEditEvent = function(encoded) {
     const ev = JSON.parse(decodeURIComponent(encoded));
     document.getElementById("eventId").value = ev.event_id;
     document.getElementById("eventTitle").value = ev.title;
@@ -65,18 +129,20 @@ function handleEditEvent(encoded) {
     
     document.getElementById("modalTitle").innerText = "Termin bearbeiten";
     document.getElementById("eventModal").classList.add("active");
-}
+};
 
-function closeEventModal() {
+window.closeEventModal = function() {
     document.getElementById("eventModal").classList.remove("active");
-}
+};
 
-async function handleDeleteEvent(id) {
+window.handleDeleteEvent = async function(id) {
     if(!confirm("Termin wirklich löschen?")) return;
-    await fetch('/CMS_Verein/src/db/query/post/admin/deleteEvent.php', { // Erstelle separate Datei
+    const res = await fetch('/CMS_Verein/src/db/query/post/admin/deleteEvent.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({id})
     });
-    loadEvents();
-}
+    if((await res.json()).success) {
+        loadEvents();
+    }
+};

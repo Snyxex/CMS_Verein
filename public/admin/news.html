@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Beiträge verwalten</title>
+    <link rel="stylesheet" href="../styles/admin/news.css">
+</head>
+
+<body>
+    <app-sidebar></app-sidebar>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div>
+                <h1>Vereins-News</h1>
+                <p>Verwalte alle Beiträge und Ankündigungen für deine Mitglieder.</p>
+            </div>
+            <button class="add-btn" id="openNewsModal">＋ Neuer Beitrag</button>
+        </header>
+
+        <section class="member-list-container">
+            <div class="table-controls">
+                <div class="filter-group">
+                    <input type="text" id="newsSearch" placeholder="Titel oder Inhalt suchen...">
+                    
+                    <select id="filterMonth">
+                        <option value="all">Alle Monate</option>
+                        <option value="0">Januar</option>
+                        <option value="1">Februar</option>
+                        <option value="2">März</option>
+                        <option value="3">April</option>
+                        <option value="4">Mai</option>
+                        <option value="5">Juni</option>
+                        <option value="6">Juli</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">Oktober</option>
+                        <option value="10">November</option>
+                        <option value="11">Dezember</option>
+                    </select>
+
+                    <select id="sortOrder">
+                        <option value="desc">Neueste zuerst</option>
+                        <option value="asc">Älteste zuerst</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table class="member-table">
+                <thead>
+                    <tr>
+                        <th>Datum</th>
+                        <th>Titel</th>
+                        <th>Vorschau</th>
+                        <th style="text-align: right;">Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody id="newsTableBody">
+                    </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div id="newsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeNewsModal()">&times;</span>
+            <h2 id="newsModalTitle">Beitrag erstellen</h2>
+            <form id="newsForm">
+                <input type="hidden" id="postId">
+                
+                <div class="form-group">
+                    <label for="newsTitle">Titel des Beitrags</label>
+                    <input type="text" id="newsTitle" placeholder="z.B. Großer Erfolg beim Turnier" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="newsImage">Bild-URL (Optional)</label>
+                    <input type="text" id="newsImage" placeholder="https://beispiel.de/bild.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label for="newsContent">Inhalt / Text</label>
+                    <textarea id="newsContent" rows="8" 
+                        style="width:100%; border-radius:8px; border:1px solid var(--border-color); padding:12px; font-family: inherit; resize: vertical;" 
+                        placeholder="Was gibt es Neues?"></textarea>
+                </div>
+
+                <button type="submit" class="save-btn">Beitrag speichern</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../src/components/sidebar.js"></script>
+    <script src="../scripts/admin/newsManagement.js"></script>
+</body>
+
+</html>
