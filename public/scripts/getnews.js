@@ -1,4 +1,4 @@
-// DEBUG-VERSION - Temporär verwenden zum Fehler finden
+
 
 async function loadCalendarEvents() {
    

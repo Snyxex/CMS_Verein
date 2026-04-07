@@ -1,23 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../styles/admin/dashboard.css">
+    
 </head>
-
 <body>
     <app-sidebar></app-sidebar>
 
-    <div class="main-content" style="margin-left: 260px;">
-        <main class="main-content">
+    <main class="main-content">
+    <header class="page-header">
+        <div>
+            <h1>Admin Zentrale</h1>
+            <p id="currentDateDisplay"></p>
+        </div>
+        <div class="quick-actions">
+            <a href="calendar.html" class="add-btn" style="text-decoration:none;">＋ Termin planen</a>
+            <a href="news.html" class="add-btn" style="background: var(--secondary-color); text-decoration:none;">📝 News schreiben</a>
+        </div>
+    </header>
 
-            
-        </main>
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div>
+                <span>Mitglieder</span>
+                <h2 id="countMembers">0</h2>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div>
+                <span>Events</span>
+                <h2 id="countEvents">0</h2>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📰</div>
+            <div>
+                <span>Beiträge</span>
+                <h2 id="countPosts">0</h2>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div>
+                <span>Gästebuch</span>
+                <h2 id="countGB">0</h2>
+            </div>
+        </div>
     </div>
 
-    <script src="../../src/components/sidebar.js"></script>
-</body>
+    <div class="content-split">
+        <div class="dashboard-box">
+            <div class="box-header">
+                <h3>Anstehende Agenda</h3>
+                <a href="calendar.html">Alle ansehen</a>
+            </div>
+            <div id="nextEventsList" class="agenda-list">
+                </div>
+        </div>
 
+        <div class="dashboard-box">
+            <h3>Letzte Gästebuch-Einträge</h3>
+            <div id="activityList" class="mini-list">
+                </div>
+            
+        </div>
+    </div>
+</main>
+
+    <script src="../../src/components/sidebar.js"></script>
+    <script src="../scripts/admin/dashboard.js"></script>
+</body>
 </html>

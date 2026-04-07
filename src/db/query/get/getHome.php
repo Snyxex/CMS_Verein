@@ -22,7 +22,7 @@ try {
     // Stats - Mitglieder
     $sql_members = "SELECT COUNT(*) AS count FROM members";
     $members_res = mysqli_fetch_assoc(mysqli_query($connection, $sql_members));
-    $actualMemberCount = $members_res['count']; // Variable umbenannt für Klarheit
+    $actualMemberCount = $members_res['count']; // 
 
     // Stats - Event Anzahl
     $sql_eventCount = "SELECT COUNT(*) AS count FROM events WHERE event_date >= CURDATE()";
