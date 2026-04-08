@@ -16,7 +16,7 @@ $club_id = 1; // Später dynamisch per Session
 // Löschbefehl mit Sicherheitsprüfung (club_id stellt sicher, dass man nur eigene Einträge löscht)
 $sql = "DELETE FROM guestbook WHERE id = $id AND club_id = $club_id";
 
-if (mysqli_query($connection, $sql)) {
+if (query($connection, $sql)) {
     if (mysqli_affected_rows($connection) > 0) {
         echo json_encode(["success" => true]);
     } else {
@@ -26,5 +26,5 @@ if (mysqli_query($connection, $sql)) {
     echo json_encode(["success" => false, "message" => mysqli_error($connection)]);
 }
 
-mysqli_close($connection);
+close($connection);
 ?>

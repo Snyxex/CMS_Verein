@@ -6,7 +6,7 @@ include "../get/getUsers.php";
         
         if($row)     //Abfrage ob der Eintag existiert
         {
-            if($row["user_id"] != "" && $row["email"] != "")    //falschen Nutzereintrag ignorieren
+            if($row["user_id"] != "" && $row["email"] != "")    //falsche Nutzereinträge ignorieren
             {
                 $_SESSION['clubid'] = $row['club_id'];
                 $_SESSION['loggedin'] = true;
@@ -14,9 +14,13 @@ include "../get/getUsers.php";
                 
                 header("Location: /CMS_Verein/public/admin/dashboard.html");
             }
-            else
+            else                                                                            //sonst immer zurückleiten
             {
-                echo "Falscher Benutzername oder Passwort";
+                header("Location: /CMS_Verein/public/auth/login.html");
             }
         }
+        else
+            {
+                header("Location: /CMS_Verein/public/auth/login.html");
+            }
 ?>

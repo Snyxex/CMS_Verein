@@ -19,7 +19,7 @@ if ($id) {
     $sql = "INSERT INTO events (club_id, title, event_date, location, street, zip, description) VALUES ($club_id, '$title', '$date', '$loc', '$street', '$zip', '$desc')";
 }
 
-if (mysqli_query($connection, $sql)) {
+if (query($connection, $sql)) {
     echo json_encode(["success" => true]);
 } else {
     echo json_encode(["success" => false, "message" => mysqli_error($connection)]);

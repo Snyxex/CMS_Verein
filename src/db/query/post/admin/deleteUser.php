@@ -19,11 +19,11 @@ if ($type === 'Admin') {
     $sql = "DELETE FROM members WHERE member_id = $id";
 }
 
-if (mysqli_query($connection, $sql)) {
+if (query($connection, $sql)) {
     echo json_encode(["success" => true]);
 } else {
     echo json_encode(["success" => false, "message" => mysqli_error($connection)]);
 }
 
-mysqli_close($connection);
+close($connection);
 ?>

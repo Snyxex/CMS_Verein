@@ -3,9 +3,12 @@ include "../get/getUsers.php";
 
 
 
-$user = getExistinUsers($connection);
+$user = getUser($connection);
 
     $row = $user->fetch_assoc();
+
+    if(!$row)     //Abfrage ob der Eintag existiert
+    {
 
         if($row["email"] == "" || $row["password"] == "")
         {
@@ -15,5 +18,5 @@ $user = getExistinUsers($connection);
         {
             echo "Nutzer existiert schon";
         }
-
+    }
 ?>

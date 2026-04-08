@@ -1,4 +1,4 @@
-<?php 
+<?php                           //funktioniert nicht ohne einen Email Server
 include "../get/getUsers.php";
 
 $Uemail = $_POST['email'];

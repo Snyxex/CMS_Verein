@@ -20,9 +20,9 @@ if ($post_id) {
             VALUES ($club_id, '$title', '$content', '$image')";
 }
 
-if (mysqli_query($connection, $sql)) {
+if (query($connection, $sql)) {
     echo json_encode(["success" => true]);
 } else {
     echo json_encode(["success" => false, "message" => mysqli_error($connection)]);
 }
-mysqli_close($connection);
+close($connection);
