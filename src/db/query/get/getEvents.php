@@ -2,8 +2,9 @@
 header('Content-Type: application/json');
 include '../../db.php';
 
-try {
-    $sql = "SELECT 
+try {                                       
+                                                //Query um Events aufsteigend nach deren Datum zu erhalten
+    $sql = "SELECT                               
                 event_id, 
                 title, 
                 event_date, 
@@ -17,8 +18,8 @@ try {
     $result = query($connection, $sql); 
 
     $events = [];
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
+    if ($result) {  
+        while ($row = mysqli_fetch_assoc($result)) {        //Formatiert die Events als Array 
             $events[] = [
                 'event_id'    => (int)$row['event_id'],
                 'title'       => $row['title'] ?? '',
@@ -32,7 +33,7 @@ try {
     }
     
     close($connection);
-    echo json_encode($events);
+    echo json_encode($events);          //gibt die formatierten Events zurück
 
 } catch (Exception $e) {
     http_response_code(500);

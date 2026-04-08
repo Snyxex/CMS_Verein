@@ -1,7 +1,7 @@
 <?php
 include "../../db.php";
 
-function getExistinUsers($connection)
+function getUser($connection)             //Funktion die die Anmeldeeingabe vergleicht 
 {
     $uEmail = $_POST['email'];
     $uPassword = $_POST['password'];
@@ -15,7 +15,7 @@ function getExistinUsers($connection)
     close($connection);
 }
 
-function checkUser($connection)
+function checkUser($connection)                 //Funktion um über Email den Nutzer zu erhalten 
 {
     $uEmail = $_POST['email'];
     $userQuery = "Select * 
@@ -27,7 +27,7 @@ function checkUser($connection)
     close($connection);
 }
 
-function InsertUser($connection)
+function InsertUser($connection)                //Funktion die einen neuen Nutzer zu erstellt
 {
     $uEmail = $_POST['email'];
     $uUsername = $_POST['username'];

@@ -2,8 +2,8 @@
     session_start();
 
     //session beenden
-    session_unset();
-    session_destroy();
+    session_unset();                //alle Variablen werden leer gesetzt
+    session_destroy();              //Session wird zerstört
     //reply
-    echo json_encode(["status" => "success", "message" => "Logged out"]);
+    echo json_encode(["status" => "success", "message" => "Logged out"]); 
 ?>

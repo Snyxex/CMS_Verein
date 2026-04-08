@@ -4,8 +4,9 @@ header('Content-Type: application/json');
 include '../../db.php'; 
 
 try {
+    //Abfrage für alle Posts absteigend ihrer Erstellung ausführen
     $sql = "SELECT name, message, created_at FROM guestbook ORDER BY created_at DESC";
-    $result = mysqli_query($connection, $sql);
+    $result = query($connection, $sql);
 
     $comments = [];
     if ($result) {
@@ -14,7 +15,7 @@ try {
         }
     }
 
-    echo json_encode($comments);
+    echo json_encode($comments);        //die Posts übergeben
     close($connection);
 } catch (Exception $e) {
     http_response_code(500);

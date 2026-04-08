@@ -65,8 +65,10 @@ class AppSidebar extends HTMLElement {
     }
 }
 
-function logout() {
+async function logout() {
 
+    const res = await fetch('logout.php');
+    const data = await res.json();
     window.location.href = "/CMS_Verein/index.html";
 }
 
