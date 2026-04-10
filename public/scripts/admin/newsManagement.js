@@ -1,8 +1,13 @@
-// Globaler Speicher für die News-Daten
+/**
+ * News-Verwaltung für den Admin-Bereich
+ * Ermöglicht das Laden, Filtern, Bearbeiten und Löschen von News-Beiträgen.
+ */
+
+// Globaler Speicher, damit wir beim Filtern nicht jedes Mal neu vom Server laden müssen
 let allNews = [];
 
 /**
- * Lädt alle News vom Server
+ * Holt alle News-Beiträge aus der Datenbank
  */
 async function loadNews() {
     try {
@@ -14,15 +19,16 @@ async function loadNews() {
             return;
         }
 
-        allNews = data;
-        applyFilters(); // Erstmaliges Rendern mit Standard-Filtern
+        allNews = data; // Daten global speichern
+        applyFilters(); // Anzeige initial befüllen
     } catch (e) {
         console.error("Netzwerkfehler beim Laden der News:", e);
     }
 }
 
 /**
- * Filtert und sortiert die News basierend auf den Benutzereingaben
+ * Verarbeitet die Benutzereingaben (Suche, Monat, Sortierung)
+ * Erstellt eine gefilterte Liste und gibt sie an die Tabelle weiter.
  */
 function applyFilters() {
     const searchTerm = document.getElementById("newsSearch").value.toLowerCase();
@@ -30,11 +36,11 @@ function applyFilters() {
     const sortOrder = document.getElementById("sortOrder").value;
 
     let filtered = allNews.filter(post => {
-        // 1. Suche in Titel und Inhalt
+        // 1. Übereinstimmung in Titel oder Inhalt prüfen
         const matchesSearch = post.title.toLowerCase().includes(searchTerm) || 
                               post.content.toLowerCase().includes(searchTerm);
         
-        // 2. Filter nach Monat
+        // 2. Übereinstimmung des Erstellungsmonats prüfen
         const postDate = new Date(post.created_at);
         const matchesMonth = (monthFilter === "all") || 
                              (postDate.getMonth().toString() === monthFilter);
@@ -42,28 +48,31 @@ function applyFilters() {
         return matchesSearch && matchesMonth;
     });
 
-    // 3. Sortierung (Datum)
+    // 3. Sortierung nach Datum (aufsteigend oder absteigend)
     filtered.sort((a, b) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
         return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
     });
 
-    renderNewsTable(filtered);
+    renderNewsTable(filtered); // Ergebnis anzeigen
 }
 
 /**
- * Erzeugt die HTML-Zeilen für die Tabelle
+ * Baut den HTML-Body der Tabelle zusammen
+ * @param {Array} data - Die (gefilterten) News-Beiträge
  */
 function renderNewsTable(data) {
     const tableBody = document.getElementById("newsTableBody");
     if (!tableBody) return;
 
+    // Falls keine Treffer vorliegen
     if (data.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Keine Beiträge gefunden.</td></tr>`;
         return;
     }
 
+    // HTML-Zeilen für jeden Beitrag erzeugen
     tableBody.innerHTML = data.map(post => `
         <tr>
             <td data-label="Datum">${post.date_formatted}</td>
@@ -78,7 +87,7 @@ function renderNewsTable(data) {
 }
 
 /**
- * Öffnet das Modal zum Bearbeiten und füllt die Felder
+ * Füllt das Modal-Formular mit den Daten eines existierenden Beitrags
  */
 window.handleEditPost = function(encodedData) {
     const post = JSON.parse(decodeURIComponent(encodedData));
@@ -93,14 +102,14 @@ window.handleEditPost = function(encodedData) {
 };
 
 /**
- * Schließt das News-Modal
+ * Entfernt die 'active'-Klasse, um das Modal zu verstecken
  */
 window.closeNewsModal = function() {
     document.getElementById("newsModal").classList.remove("active");
 };
 
 /**
- * Löscht einen Beitrag nach Bestätigung
+ * Sendet eine Lösch-Anfrage für eine bestimmte ID an den Server
  */
 window.handleDeletePost = async function(id) {
     if (!confirm("Möchtest du diesen Beitrag wirklich unwiderruflich löschen?")) return;
@@ -114,7 +123,7 @@ window.handleDeletePost = async function(id) {
         
         const result = await res.json();
         if (result.success) {
-            loadNews(); // Liste aktualisieren
+            loadNews(); // Liste nach Löschung neu laden
         } else {
             alert("Fehler beim Löschen: " + (result.message || "Unbekannter Fehler"));
         }
@@ -124,35 +133,35 @@ window.handleDeletePost = async function(id) {
 };
 
 /**
- * Initialisierung beim Laden der Seite
+ * Initialisierung der Seite
  */
 document.addEventListener("DOMContentLoaded", () => {
-    loadNews();
+    loadNews(); // Daten beim Start abrufen
 
     const newsForm = document.getElementById("newsForm");
     const openModalBtn = document.getElementById("openNewsModal");
 
-    // Modal öffnen (Neu-Modus)
+    // Modal für einen komplett neuen Beitrag vorbereiten
     if (openModalBtn) {
         openModalBtn.onclick = () => {
             newsForm.reset();
-            document.getElementById("postId").value = "";
+            document.getElementById("postId").value = ""; // ID leeren = Neu-Modus
             document.getElementById("newsModalTitle").innerText = "Neuer Beitrag";
             document.getElementById("newsModal").classList.add("active");
         };
     }
 
-    // Event-Listener für Filter-Echtzeit-Update
+    // Filter-Updates bei jeder Eingabe auslösen (Echtzeit-Suche)
     const filterElements = ["newsSearch", "filterMonth", "sortOrder"];
     filterElements.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener("input", applyFilters);
     });
 
-    // Formular absenden (Speichern & Update)
+    // Speichern-Logik (Erstellen & Aktualisieren)
     if (newsForm) {
         newsForm.onsubmit = async (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Verhindert Neuladen der Seite
             
             const formData = {
                 post_id: document.getElementById("postId").value,
@@ -171,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await res.json();
                 if (result.success) {
                     closeNewsModal();
-                    loadNews();
+                    loadNews(); // Liste aktualisieren
                 } else {
                     alert("Fehler beim Speichern: " + result.message);
                 }

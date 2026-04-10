@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News & Beiträge verwalten</title>
-    <link rel="stylesheet" href="../styles/admin/news.css">
+    <link rel="stylesheet" href="../styles/admin-core.css">
 </head>
 
 <body>
@@ -20,7 +19,7 @@
             <button class="add-btn" id="openNewsModal">＋ Neuer Beitrag</button>
         </header>
 
-        <section class="member-list-container">
+        <section class="list-container">
             <div class="table-controls">
                 <div class="filter-group">
                     <input type="text" id="newsSearch" placeholder="Titel oder Inhalt suchen...">
@@ -82,9 +81,7 @@
 
                 <div class="form-group">
                     <label for="newsContent">Inhalt / Text</label>
-                    <textarea id="newsContent" rows="8" 
-                        style="width:100%; border-radius:8px; border:1px solid var(--border-color); padding:12px; font-family: inherit; resize: vertical;" 
-                        placeholder="Was gibt es Neues?"></textarea>
+                    <textarea id="newsContent" rows="8" placeholder="Was gibt es Neues?"></textarea>
                 </div>
 
                 <button type="submit" class="save-btn">Beitrag speichern</button>
@@ -95,5 +92,4 @@
     <script src="../../src/components/sidebar.js"></script>
     <script src="../scripts/admin/newsManagement.js"></script>
 </body>
-
 </html>

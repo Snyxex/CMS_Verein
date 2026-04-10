@@ -1,12 +1,20 @@
+/**
+ * Gästebuch-Moderation (Admin)
+ * Ermöglicht das Überwachen und Löschen von Einträgen.
+ */
+
+// Globaler Speicher für alle Einträge, um die Filterung ohne Server-Anfragen zu ermöglichen
 let allGbEntries = [];
 
 /**
- * Lädt alle Gästebucheinträge
+ * Lädt alle Gästebucheinträge vom Server
  */
 async function loadGuestbook() {
     try {
         const response = await fetch('/CMS_Verein/src/db/query/get/admin/getGuestbook.php');
         allGbEntries = await response.json();
+        
+        // Nach dem Laden sofort die Anzeige mit Standardfiltern erstellen
         applyGbFilters();
     } catch (error) {
         console.error("Fehler beim Laden:", error);
@@ -14,7 +22,7 @@ async function loadGuestbook() {
 }
 
 /**
- * Wendet Filter und Sortierung an
+ * Filtert und sortiert die Einträge basierend auf den Admin-Eingaben
  */
 function applyGbFilters() {
     const searchTerm = document.getElementById("gbSearch").value.toLowerCase();
@@ -22,11 +30,11 @@ function applyGbFilters() {
     const sortOrder = document.getElementById("gbSortOrder").value;
 
     let filtered = allGbEntries.filter(entry => {
-        // 1. Suche in Name und Nachricht
+        // 1. Suche: Prüft, ob der Suchbegriff im Namen oder in der Nachricht vorkommt
         const matchesSearch = entry.name.toLowerCase().includes(searchTerm) || 
                               entry.message.toLowerCase().includes(searchTerm);
         
-        // 2. Monats-Filter (created_at nutzen)
+        // 2. Zeit-Filter: Vergleicht den Monat des Eintrags mit dem Filter-Dropdown
         const entryDate = new Date(entry.created_at);
         const matchesMonth = (monthFilter === "all") || 
                              (entryDate.getMonth().toString() === monthFilter);
@@ -34,28 +42,31 @@ function applyGbFilters() {
         return matchesSearch && matchesMonth;
     });
 
-    // 3. Sortierung
+    // 3. Sortierung: Datum absteigend (neueste zuerst) oder aufsteigend
     filtered.sort((a, b) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
         return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
     });
 
-    renderGBTable(filtered);
+    renderGBTable(filtered); // Gefilterte Daten an die Tabelle übergeben
 }
 
 /**
- * Rendert die Tabelle
+ * Erzeugt das HTML für die Tabellenzeilen
+ * @param {Array} data - Die Liste der anzuzeigenden Einträge
  */
 function renderGBTable(data) {
     const tableBody = document.getElementById("gbTableBody");
     if (!tableBody) return;
 
+    // Falls die Filterung kein Ergebnis liefert
     if (data.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Keine Einträge gefunden.</td></tr>`;
         return;
     }
 
+    // Erstellt für jeden Eintrag eine Tabellenzeile
     tableBody.innerHTML = data.map(entry => `
         <tr>
             <td data-label="Datum"><small>${entry.date_formatted}</small></td>
@@ -73,7 +84,8 @@ function renderGBTable(data) {
 }
 
 /**
- * Löschfunktion
+ * Löscht einen Gästebucheintrag nach Bestätigung durch den Admin
+ * @param {number} id - Die ID des zu löschenden Beitrags
  */
 async function handleDeleteEntry(id) {
     if (!confirm("Soll dieser Gästebuch-Eintrag wirklich gelöscht werden?")) return;
@@ -87,21 +99,26 @@ async function handleDeleteEntry(id) {
         
         const result = await response.json();
         if (result.success) {
-            loadGuestbook(); // Neu laden
+            // Nach Erfolg Liste neu laden, um den gelöschten Eintrag zu entfernen
+            loadGuestbook(); 
         } else {
             alert("Fehler beim Löschen");
         }
     } catch (err) {
-        console.error(err);
+        console.error("Löschfehler:", err);
     }
 }
 
-// Initialisierung
+/**
+ * Initialisierung beim Start der Seite
+ */
 document.addEventListener("DOMContentLoaded", () => {
-    loadGuestbook();
+    loadGuestbook(); // Erste Datenladung
 
-    // Event Listener für Filter
+    // Event-Listener für alle Filter-Felder registrieren
+    // 'input' reagiert sofort beim Tippen oder Ändern der Auswahl
     ["gbSearch", "gbFilterMonth", "gbSortOrder"].forEach(id => {
-        document.getElementById(id).addEventListener("input", applyGbFilters);
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", applyGbFilters);
     });
 });

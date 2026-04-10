@@ -1,29 +1,36 @@
+/**
+ * Homepage Data Loader
+ * Holt alle Inhalte für die Startseite (Vereinsinfos, News, Events, Stats)
+ */
 fetch("/CMS_Verein/src/db/query/get/getHome.php")
     .then(response => {
+        // Prüfen, ob die Verbindung zum Server erfolgreich war
         if (!response.ok) throw new Error("Netzwerk-Antwort war nicht ok");
-        return response.json();
+        return response.json(); // Daten in ein JavaScript-Objekt umwandeln
     })
     .then(data => {
-        // --- 1. VEREINSDATEN ---
+        
+        // --- 1. VEREINSDATEN (Name, Beschreibung, Logo) ---
         if (data.club) {
             document.getElementById("clubName").textContent = data.club.name || "Vereinsname";
             document.getElementById("clubDescription").textContent = data.club.description || "";
+            
             const logoImg = document.getElementById("clubLogo");
             if (data.club.logo) {
-                logoImg.src = data.club.logo;
+                logoImg.src = data.club.logo; // Logo-Pfad setzen
                 logoImg.style.display = "block";
             } else {
-                logoImg.style.display = "none";
+                logoImg.style.display = "none"; // Verstecken, wenn kein Logo vorhanden
             }
         }
 
-        // --- 2. NEWS ---
+        // --- 2. NEWS-BEREICH (Aktuelle Beiträge) ---
         const newsContainer = document.getElementById("newsContainer");
         if (newsContainer && data.news) {
-            newsContainer.innerHTML = ""; // Container leeren
+            newsContainer.innerHTML = ""; // Platzhalter leeren
             data.news.forEach(post => {
                 const div = document.createElement("div");
-                div.classList.add("news-item");
+                div.classList.add("news-item"); // CSS-Klasse für Styling hinzufügen
                 div.innerHTML = `
                     <h3>${post.title}</h3>
                     <p>${post.content}</p>
@@ -33,7 +40,7 @@ fetch("/CMS_Verein/src/db/query/get/getHome.php")
             });
         }
 
-        // --- 3. NÄCHSTES EVENT ---
+        // --- 3. NÄCHSTES EVENT (Highlight-Termin) ---
         const eventContainer = document.getElementById("nextEvent");
         if (eventContainer) {
             if (data.events) {
@@ -51,8 +58,8 @@ fetch("/CMS_Verein/src/db/query/get/getHome.php")
             }
         }
 
-        // --- 4. STATISTIKEN (Stats) ---
-        // Hier nutzen wir die Daten direkt aus dem Stats-Objekt deines PHP
+        // --- 4. STATISTIKEN (Mitglieder- und Event-Zähler) ---
+        // Diese Zahlen kommen direkt aus der SQL-Zählung (COUNT) deines PHP-Skripts
         if (data.stats) {
             const memCountEl = document.getElementById("memberCount");
             const evCountEl = document.getElementById("eventCount");
@@ -62,5 +69,6 @@ fetch("/CMS_Verein/src/db/query/get/getHome.php")
         }
     })
     .catch(error => {
+        // Fehlerbehandlung: Wird ausgelöst bei Datenbankfehlern oder Pfad-Problemen
         console.error("Fehler beim Laden der Homepage-Daten:", error);
     });

@@ -1,46 +1,52 @@
-class AppFooter extends HTMLElement{
-    connectedCallback(){
+/**
+ * Footer Web Component
+ * Erstellt den einheitlichen Fußbereich <app-footer> für alle Seiten
+ */
+class AppFooter extends HTMLElement {
+    // Wird aufgerufen, wenn das Element in die Seite eingefügt wird
+    connectedCallback() {
         this.innerHTML = `
         <link rel="stylesheet" href="/CMS_Verein/public/styles/footer.css">
+        
         <footer class="footer">
-    <div class="footer-top">
-        <div class="footer-column">
-            <h3>Top Kategorien</h3>
-            <ul>
-                <li><a href="/CMS_Verein/public/footer/hometrikot.html">Home Trikot</a></li>
-                <li><a href="/CMS_Verein/public/footer/awaytrikot.html">Away Trikot</a></li>
-                <li><a href="/CMS_Verein/public/footer/Torwarttrikot.html">Torwart Trikot</a></li>
-            </ul>
-        </div>
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h3>Top Kategorien</h3>
+                    <ul>
+                        <li><a href="/CMS_Verein/public/footer/hometrikot.html">Home Trikot</a></li>
+                        <li><a href="/CMS_Verein/public/footer/awaytrikot.html">Away Trikot</a></li>
+                        <li><a href="/CMS_Verein/public/footer/Torwarttrikot.html">Torwart Trikot</a></li>
+                    </ul>
+                </div>
 
-        <div class="footer-column">
-            <h3>Hilfe & Services</h3>
-            <ul>
-                <li><a href="/CMS_Verein/public/footer/Kontakt.html">Kontakt</a></li>
-            </ul>
-        </div>
+                <div class="footer-column">
+                    <h3>Hilfe & Services</h3>
+                    <ul>
+                        <li><a href="/CMS_Verein/public/footer/Kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
 
-        <div class="footer-column">
-            <h3>Folge uns</h3>
-            <div class="social-icons">
-                <a href="#">YouTube</a>
-                <a href="https://www.instagram.com/">Instagram</a>
-                <a href="https://github.com/Snyxex/CMS_Verein">Github</a>
+                <div class="footer-column">
+                    <h3>Folge uns</h3>
+                    <div class="social-icons">
+                        <a href="#">YouTube</a>
+                        <a href="https://www.instagram.com/">Instagram</a>
+                        <a href="https://github.com/Snyxex/CMS_Verein">Github</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="footer-bottom">
-        <p>© 2026 Dein Verein e.V.</p>
-        <div class="footer-links">
-            <a href="/CMS_Verein/public/footer/impressum.html">Impressum</a>
-            <a href="/CMS_Verein/public/footer/Datenschutz.html">Datenschutz</a>
-
-        </div>
-    </div>
-</footer>
+            <div class="footer-bottom">
+                <p>© 2026 Dein Verein e.V.</p>
+                <div class="footer-links">
+                    <a href="/CMS_Verein/public/footer/impressum.html">Impressum</a>
+                    <a href="/CMS_Verein/public/footer/Datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </footer>
         `;
     }
-};
+}
 
-customElements.define("app-footer",AppFooter);
+// Registriert die Web Component unter dem Namen <app-footer>
+customElements.define("app-footer", AppFooter);

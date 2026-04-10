@@ -1,46 +1,62 @@
+/**
+ * AppCalendar Web Component
+ * Erstellt eine interaktive Wochenansicht für Vereinstermine <app-calendar>
+ */
 class AppCalendar extends HTMLElement {
   constructor() {
     super();
-    this.currentDate = new Date();
-    this.appointments = [];
-    this.modalClickHandler = null; // Speichern des Event-Handlers
+    this.currentDate = new Date(); // Das aktuell angezeigte Datum (Referenz für die Woche)
+    this.appointments = [];        // Speicher für alle vom Server geladenen Termine
+    this.modalClickHandler = null; // Referenz für den Event-Listener, um Speicherlecks zu vermeiden
   }
 
+  // Wird aufgerufen, wenn die Komponente ins HTML eingefügt wird
   connectedCallback() {
     this.render();
   }
 
+  // Wird aufgerufen, wenn die Komponente entfernt wird (wichtig zum Aufräumen)
   disconnectedCallback() {
-    // Aufräumen beim Entfernen des Elements
     if (this.modalClickHandler) {
       window.removeEventListener('click', this.modalClickHandler);
     }
   }
 
+  /**
+   * Nimmt die Daten vom Server entgegen und löst ein neues Zeichnen aus
+   */
   setAppointments(data) {
     console.log("Daten empfangen!");
-    console.table(data); 
     this.appointments = data;
     this.render();
   }
 
+  /**
+   * Hilfsfunktion: Berechnet den Montag der Woche eines beliebigen Datums
+   */
   getMonday(d) {
     const date = new Date(d);
     const day = date.getDay();
+    // Korrektur: In JS ist Sonntag=0. Diese Formel setzt den Wochenstart immer auf Montag.
     const diff = date.getDate() - day + (day === 0 ? -6 : 1);
     return new Date(date.setDate(diff));
   }
 
+  /**
+   * Erzeugt das HTML-Layout des Kalenders
+   */
   render() {
     const monday = this.getMonday(this.currentDate);
     const weekDays = [];
+    
+    // Array mit allen 7 Tagen der aktuellen Woche füllen
     for (let i = 0; i < 7; i++) { 
       const day = new Date(monday);
       day.setDate(monday.getDate() + i);
       weekDays.push(day);
     }
 
-    // Heute-Datum einmal berechnen
+    // Heutiges Datum als String (YYYY-MM-DD) für den "Heute"-Marker
     const todayStr = new Date().toISOString().split('T')[0];
 
     this.innerHTML = `
@@ -69,11 +85,10 @@ class AppCalendar extends HTMLElement {
             
             const isToday = todayStr === dateStr ? 'is-today' : '';
             
-            // Termine für diesen Tag filtern
+            // Filtert alle Termine heraus, die an genau diesem Tag stattfinden
             const dailyApps = this.appointments.filter(a => {
               if (!a.event_date) return false;
-              const dbDateShort = a.event_date.substring(0, 10);
-              return dbDateShort === dateStr;
+              return a.event_date.substring(0, 10) === dateStr;
             });
             
             return `
@@ -102,45 +117,37 @@ class AppCalendar extends HTMLElement {
     this.initEventListeners();
   }
 
+  /**
+   * Aktiviert alle Klick-Funktionen (Navigation & Termindetails)
+   */
   initEventListeners() {
-    // Alten window click handler entfernen
-    if (this.modalClickHandler) {
-      window.removeEventListener('click', this.modalClickHandler);
-    }
-
     const modal = this.querySelector('#infoModal');
 
-    // Navigations-Buttons
+    // Navigation: Eine Woche zurück
     this.querySelector('#prevWeek').onclick = () => {
       this.currentDate.setDate(this.currentDate.getDate() - 7);
-      modal.classList.remove('active'); // Modal schließen bei Navigation
       this.render();
     };
 
+    // Navigation: Zur aktuellen Woche springen
     this.querySelector('#todayBtn').onclick = () => {
-      this.currentDate = new Date(); // Zurück zu heute
-      modal.classList.remove('active');
+      this.currentDate = new Date();
       this.render();
     };
 
+    // Navigation: Eine Woche vorwärts
     this.querySelector('#nextWeek').onclick = () => {
       this.currentDate.setDate(this.currentDate.getDate() + 7);
-      modal.classList.remove('active'); // Modal schließen bei Navigation
       this.render();
     };
 
-    // Termin-Klick-Handler
+    // Klick auf einen Termin: Modal mit Details befüllen und anzeigen
     this.querySelectorAll('.appointment').forEach(el => {
       el.onclick = () => {
         const dateStr = el.dataset.date;
         const index = parseInt(el.dataset.index);
         
-        // FIX: Konsistenter Datums-Vergleich
-        const dailyApps = this.appointments.filter(a => {
-          if (!a.event_date) return false;
-          return a.event_date.substring(0, 10) === dateStr;
-        });
-        
+        const dailyApps = this.appointments.filter(a => a.event_date.substring(0, 10) === dateStr);
         const app = dailyApps[index];
 
         if (app) {
@@ -157,12 +164,12 @@ class AppCalendar extends HTMLElement {
       };
     });
 
-    // Modal schließen
+    // Modal über das 'X' schließen
     this.querySelector('.close-btn').onclick = () => {
       modal.classList.remove('active');
     };
     
-    // Window click handler mit Referenz speichern
+    // Modal schließen, wenn man in den dunklen Bereich außerhalb klickt
     this.modalClickHandler = (event) => {
       if (event.target === modal) {
         modal.classList.remove('active');

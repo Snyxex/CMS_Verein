@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminverwaltung</title>
-    <link rel="stylesheet" href="../styles/admin/calender.css">
+    <link rel="stylesheet" href="../styles/admin-core.css">
 </head>
 <body>
     <app-sidebar></app-sidebar>
@@ -18,12 +18,12 @@
             <button class="add-btn" id="openEventModal">＋ Neuer Termin</button>
         </header>
 
-        <section class="member-list-container">
+        <section class="list-container">
             <div class="table-controls">
-                <div class="filter-group" style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <input type="text" id="eventSearch" placeholder="Event oder Ort suchen..." style="flex: 2; min-width: 200px;">
+                <div class="filter-group">
+                    <input type="text" id="eventSearch" placeholder="Event oder Ort suchen...">
                     
-                    <select id="eventFilterMonth" style="flex: 1; min-width: 150px;">
+                    <select id="eventFilterMonth">
                         <option value="all">Alle Monate</option>
                         <option value="0">Januar</option>
                         <option value="1">Februar</option>
@@ -39,7 +39,7 @@
                         <option value="11">Dezember</option>
                     </select>
 
-                    <select id="eventSortOrder" style="flex: 1; min-width: 150px;">
+                    <select id="eventSortOrder">
                         <option value="asc">Älteste zuerst</option>
                         <option value="desc">Neueste zuerst</option>
                     </select>
@@ -55,7 +55,8 @@
                         <th style="text-align: right;">Aktionen</th>
                     </tr>
                 </thead>
-                <tbody id="eventTableBody"></tbody>
+                <tbody id="eventTableBody">
+                    </tbody>
             </table>
         </section>
     </main>
@@ -66,19 +67,23 @@
             <h2 id="modalTitle">Termin planen</h2>
             <form id="eventForm">
                 <input type="hidden" id="eventId">
+                
                 <div class="form-group">
                     <label>Titel des Events</label>
-                    <input type="text" id="eventTitle" required>
+                    <input type="text" id="eventTitle" placeholder="z.B. Jahreshauptversammlung" required>
                 </div>
+
                 <div class="form-group">
                     <label>Datum</label>
                     <input type="date" id="eventDate" required>
                 </div>
+
                 <div class="form-group">
                     <label>Ort / Location</label>
-                    <input type="text" id="eventLocation">
+                    <input type="text" id="eventLocation" placeholder="Vereinsheim, Sportplatz...">
                 </div>
-                <div style="display: flex; gap: 10px;">
+
+                <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="flex: 2;">
                         <label>Straße</label>
                         <input type="text" id="eventStreet">
@@ -88,10 +93,12 @@
                         <input type="text" id="eventZip">
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label>Beschreibung</label>
-                    <textarea id="eventDescription" rows="3" style="width:100%; border-radius:8px; border:1px solid var(--border-color); padding:10px;"></textarea>
+                    <textarea id="eventDescription" rows="3" placeholder="Details zum Termin..."></textarea>
                 </div>
+
                 <button type="submit" class="save-btn">Termin speichern</button>
             </form>
         </div>

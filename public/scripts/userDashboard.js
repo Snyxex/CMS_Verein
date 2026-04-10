@@ -1,10 +1,18 @@
+/**
+ * Mitglieder-Dashboard Logik
+ * Initialisiert die Seite und befüllt die Container mit Daten vom Server
+ */
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM geladen, starte Datenabruf...");
     loadMemberDashboard();
 });
 
+/**
+ * Hauptfunktion zum Laden aller Dashboard-Informationen
+ */
 async function loadMemberDashboard() {
     try {
+        // Anfrage an das PHP-Backend senden
         const response = await fetch('/CMS_Verein/src/db/query/get/mitglieder/getMemberDashboard.php');
         
         if (!response.ok) {
@@ -12,19 +20,21 @@ async function loadMemberDashboard() {
             return;
         }
 
+        // JSON-Daten vom Server empfangen
         const data = await response.json();
-        console.log("Empfangene Daten vom Server:", data); // WICHTIG: Hier prüfen, ob Arrays leer sind!
+        console.log("Empfangene Daten vom Server:", data); 
 
-        // --- Club Name ---
+        // --- 1. Vereins-Name im Hero-Bereich ---
         const heroTitle = document.querySelector('.member-hero h1');
         if (heroTitle && data.club) {
             heroTitle.innerText = `Willkommen im ${data.club.name}`;
         }
 
-        // --- Events (Tabellen-Check: events) ---
+        // --- 2. Event-Agenda (Termine) ---
         const eventList = document.getElementById("userEventList");
         if (eventList) {
             if (data.events && data.events.length > 0) {
+                // Erstellt eine Liste von Terminen mit formatiertem Datum
                 eventList.innerHTML = data.events.map(ev => `
                     <div class="agenda-item">
                         <div class="agenda-date">
@@ -42,7 +52,7 @@ async function loadMemberDashboard() {
             }
         }
 
-        // --- Mitglieder (Tabellen-Check: members) ---
+        // --- 3. Mitglieder-Übersicht (Kleine Karten) ---
         const memberList = document.getElementById("userMemberList");
         if (memberList) {
             if (data.members && data.members.length > 0) {
@@ -59,7 +69,7 @@ async function loadMemberDashboard() {
             }
         }
 
-        // --- News (Tabellen-Check: posts) ---
+        // --- 4. News-Feed (Beiträge) ---
         const newsList = document.getElementById("userNewsList");
         if (newsList && data.news) {
             newsList.innerHTML = data.news.map(n => `
@@ -71,6 +81,7 @@ async function loadMemberDashboard() {
         }
 
     } catch (error) {
+        // Fängt Netzwerkfehler oder JavaScript-Fehler ab
         console.error("KRITISCHER FEHLER:", error);
     }
 }

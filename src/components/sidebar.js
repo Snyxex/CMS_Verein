@@ -1,26 +1,35 @@
+/**
+ * Sidebar Web Component
+ * Erstellt ein wiederverwendbares HTML-Element <app-sidebar>
+ */
 class AppSidebar extends HTMLElement {
     constructor() {
-        super();
+        super(); // Ruft die Basis-Funktionen von HTMLElement auf
     }
 
+    // Wird automatisch aufgerufen, sobald das Element im HTML platziert wird
     connectedCallback() {
-        this.render();
-        this.initMobileMenu();
+        this.render();        // Erzeugt das HTML-Gerüst
+        this.initMobileMenu(); // Aktiviert die Klick-Funktionen für Handys
     }
 
+    /**
+     * Steuerung für das mobile Menü (Burger-Button)
+     */
     initMobileMenu() {
-        // Wir warten kurz, bis das DOM bereit ist
+        // Kurze Verzögerung, damit die Elemente sicher im DOM existieren
         setTimeout(() => {
             const btn = document.getElementById('mobileMenuBtn');
             const sidebar = this.querySelector('.sidebar');
             
             if (btn && sidebar) {
+                // Öffnen/Schließen beim Klick auf den Burger-Button
                 btn.onclick = (e) => {
-                    e.stopPropagation(); // Verhindert sofortiges Schließen
+                    e.stopPropagation(); // Verhindert, dass der Klick das Dokument-Event auslöst
                     sidebar.classList.toggle('open');
                 };
 
-                // Schließen, wenn man außerhalb klickt
+                // Schließt die Sidebar automatisch, wenn man irgendwo außerhalb hinklickt
                 document.addEventListener('click', (e) => {
                     if (!sidebar.contains(e.target) && sidebar.classList.contains('open')) {
                         sidebar.classList.remove('open');
@@ -30,6 +39,9 @@ class AppSidebar extends HTMLElement {
         }, 100);
     }
 
+    /**
+     * Erzeugt das HTML-Layout der Sidebar
+     */
     render() {
         this.innerHTML = `
         <button id="mobileMenuBtn" class="mobile-nav-toggle">
@@ -41,17 +53,20 @@ class AppSidebar extends HTMLElement {
         </button>
 
         <link rel="stylesheet" href="/CMS_Verein/public/styles/sidebar.css">
+        
         <div class="sidebar">
             <div class="sidebar-header">
                 <h3>Navigation</h3>
             </div>
+            
             <ul class="sidebar-nav">
                 <li><a href="/CMS_Verein/public/admin/dashboard.html">Home</a></li>
-               <li><a href="/CMS_Verein/public/admin/news.html">News</a></li>
+                <li><a href="/CMS_Verein/public/admin/news.html">News</a></li>
                 <li><a href="/CMS_Verein/public/admin/guestbook.html">Gästebuch</a></li>
                 <li><a href="/CMS_Verein/public/admin/calender.html">Kalender</a></li>
                 <li><a href="/CMS_Verein/public/admin/members.html">Mitglieder</a></li>
             </ul>
+
             <div class="sidebar-footer">
                 <button class="Btn" onclick="logout()">
                     <div class="sign">
@@ -65,11 +80,19 @@ class AppSidebar extends HTMLElement {
     }
 }
 
+/**
+ * Logout-Logik: Ruft das PHP-Skript auf und leitet zur Loginseite um
+ */
 async function logout() {
-
-    const res = await fetch('logout.php');
-    const data = await res.json();
+    try {
+        const res = await fetch('logout.php');
+        const data = await res.json();
+    } catch (e) {
+        console.log("Logout-Request gesendet");
+    }
+    // Nach dem Logout immer zurück zur Startseite/Login
     window.location.href = "/CMS_Verein/index.html";
 }
 
+// Registriert das Element, damit <app-sidebar></app-sidebar> genutzt werden kann
 customElements.define('app-sidebar', AppSidebar);

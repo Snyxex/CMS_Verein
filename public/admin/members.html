@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mitgliederverwaltung</title>
-    <link rel="stylesheet" href="../styles/admin/members.css">
+    <title>Benutzerverwaltung</title>
+    <link rel="stylesheet" href="../styles/admin-core.css">
 </head>
 
 <body>
     <app-sidebar></app-sidebar>
-
-
 
     <main class="main-content">
         <header class="page-header">
@@ -22,10 +19,18 @@
             <button class="add-btn" id="openModal">＋ Neuer Eintrag</button>
         </header>
 
-        <section class="member-list-container">
+        <section class="list-container">
             <div class="table-controls">
-                <input type="text" id="memberSearch" placeholder="Name, Email oder Rolle suchen...">
-            </div>
+    <div class="filter-group">
+        <input type="text" id="memberSearch" placeholder="Name, Email oder Rolle suchen...">
+        
+        <select id="typeFilter">
+            <option value="all">Alle Typen</option>
+            <option value="Admin">Admins</option>
+            <option value="Mitglied">Mitglieder</option>
+        </select>
+    </div>
+</div>
             
             <table class="member-table">
                 <thead>
@@ -44,41 +49,46 @@
     </main>
 
     <div id="userModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle">Eintrag bearbeiten</h2>
-        <form id="userForm">
-            <input type="hidden" id="entityId">
-            <div class="form-group">
-                <label>Konto-Typ</label>
-                <select id="typeSelect">
-                    <option value="Mitglied">Vereinsmitglied</option>
-                    <option value="Admin">Administrator</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" id="inputName" required>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="inputEmail">
-            </div>
-            <div class="form-group">
-                <label>Rolle</label>
-                <input type="text" id="inputRole">
-            </div>
-            <div class="form-group">
-                <label>Passwort</label>
-                <input type="password" id="inputPassword" placeholder="Passwort vergeben/ändern">
-            </div>
-            <button type="submit" class="save-btn">Speichern</button>
-        </form>
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Eintrag bearbeiten</h2>
+            <form id="userForm">
+                <input type="hidden" id="entityId">
+                
+                <div class="form-group">
+                    <label>Konto-Typ</label>
+                    <select id="typeSelect">
+                        <option value="Mitglied">Vereinsmitglied</option>
+                        <option value="Admin">Administrator</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="inputName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="inputEmail">
+                </div>
+
+                <div class="form-group">
+                    <label>Rolle</label>
+                    <input type="text" id="inputRole">
+                </div>
+
+                <div class="form-group">
+                    <label>Passwort</label>
+                    <input type="password" id="inputPassword" placeholder="Passwort vergeben/ändern">
+                </div>
+
+                <button type="submit" class="save-btn">Speichern</button>
+            </form>
+        </div>
     </div>
-</div>
 
     <script src="../../src/components/sidebar.js"></script>
     <script src="../scripts/admin/memberManagement.js"></script>
 </body>
-
 </html>

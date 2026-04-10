@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gästebuch Moderation</title>
-    <link rel="stylesheet" href="../styles/admin/gb.css">
+    <link rel="stylesheet" href="../styles/admin-core.css">
 </head>
 <body>
     <app-sidebar></app-sidebar>
@@ -15,14 +15,14 @@
                 <h1>Gästebuch Moderation</h1>
                 <p>Prüfe Einträge und entferne unpassende Nachrichten.</p>
             </div>
-        </header>
+            </header>
 
-        <section class="member-list-container">
+        <section class="list-container">
             <div class="table-controls">
-                <div class="filter-group" style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <input type="text" id="gbSearch" placeholder="Name oder Nachricht suchen..." style="flex: 2; min-width: 200px;">
+                <div class="filter-group">
+                    <input type="text" id="gbSearch" placeholder="Name oder Nachricht suchen...">
                     
-                    <select id="gbFilterMonth" style="flex: 1; min-width: 150px;">
+                    <select id="gbFilterMonth">
                         <option value="all">Alle Monate</option>
                         <option value="0">Januar</option>
                         <option value="1">Februar</option>
@@ -38,7 +38,7 @@
                         <option value="11">Dezember</option>
                     </select>
 
-                    <select id="gbSortOrder" style="flex: 1; min-width: 150px;">
+                    <select id="gbSortOrder">
                         <option value="desc">Neueste zuerst</option>
                         <option value="asc">Älteste zuerst</option>
                     </select>

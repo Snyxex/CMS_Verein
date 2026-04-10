@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unser Team - Vereinsmitglieder</title>
+    <link rel="stylesheet" href="./styles/members.css">
+</head>
+<body>
+    <script src="../src/components/navbar.js"></script>
+    <app-navbar></app-navbar>
+
+    <div class="page-wrapper">
+        <header class="members-header">
+            <h1>Unsere Mitglieder</h1>
+            <p>Lerne die Menschen hinter unserem Verein kennen.</p>
+        </header>
+
+        <div class="members-grid" id="membersGrid">
+            <p>Lade Mitglieder...</p>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+    
+    <script src="../src/components/footer.js"></script>
+    
+    <script src="./scripts/getMembersPublic.js"></script>
+</body>
+</html>
