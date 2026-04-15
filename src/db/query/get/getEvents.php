@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 include '../../db.php';
 
 try {                                       
-                                                //Query um Events aufsteigend nach deren Datum zu erhalten
+     //Query um Events aufsteigend nach deren Datum zu erhalten
     $sql = "SELECT                               
                 event_id, 
                 title, 
